@@ -128,24 +128,45 @@ onValue(ref(db, 'draft'), (snapshot) => {
 
     currentStep = data.currentStep || 0;
 
-    // Сбрасываем стили всех карточек перед обновлением
+    // Очищаем списки по бокам перед отрисовкой
+    document.getElementById('cap1-picks').innerHTML = '';
+    document.getElementById('cap1-bans').innerHTML = '';
+    document.getElementById('cap2-picks').innerHTML = '';
+    document.getElementById('cap2-bans').innerHTML = '';
+
+    // Сбрасываем стили всех карточек в сетке
     document.querySelectorAll('.hero-card').forEach(c => c.className = 'hero-card');
 
-    // Помечаем выбранных героев
     if (data.history) {
         Object.values(data.history).forEach(act => {
+            // 1. Подсвечиваем в центральной сетке
             const el = document.getElementById(`hero-${act.heroId}`);
             if (el) el.classList.add(act.type === 'ban' ? 'banned' : 'picked');
+
+            // 2. Добавляем маленькую иконку в боковую панель
+            const heroData = heroes.find(h => h.id === act.heroId);
+            if (heroData) {
+                const miniIcon = document.createElement('div');
+                miniIcon.className = `mini-card ${act.type}`;
+                miniIcon.style.backgroundImage = `url(${heroData.img})`;
+                miniIcon.title = heroData.name;
+
+                // Определяем, в какой контейнер положить
+                const containerId = `cap${act.cap}-${act.type}s`;
+                document.getElementById(containerId).appendChild(miniIcon);
+            }
         });
     }
 
-    // Обновляем текст хода
+    // Обновляем статус
     const info = document.getElementById('turn-info');
     if (currentStep < draftSequence.length) {
         const next = draftSequence[currentStep];
         info.innerText = `Очередь: Капитан ${next.cap} (${next.type === 'ban' ? 'БАН' : 'ПИК'})`;
+        document.getElementById('current-action').innerText = "Идет выбор...";
     } else {
-        info.innerText = "Драфт окончен!";
+        info.innerText = "ДРАФТ ОКОНЧЕН";
+        document.getElementById('current-action').innerText = "Финал";
     }
 });
 
