@@ -13,11 +13,9 @@ const firebaseConfig = {
   appId: "1:949975758587:web:00adf7088d01dc4ad5625e"
 };
 
-// Инициализация
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// 3. Твоя последовательность драфта (24 шага)
 const draftSequence = [
     { cap: 1, type: 'ban' }, { cap: 1, type: 'ban' },
     { cap: 2, type: 'ban' }, { cap: 2, type: 'ban' },
@@ -33,9 +31,8 @@ const draftSequence = [
     { cap: 2, type: 'pick' }, { cap: 1, type: 'pick' }
 ];
 
-// 4. Твой массив персонажей
 const heroes = [
-   { id: '1', name: 'Бомбер', img: 'images/1.png' },
+    { id: '1', name: 'Бомбер', img: 'images/1.png' },
     { id: '2', name: 'Лучник', img: 'images/2.png' },
     { id: '3', name: 'Мечник', img: 'images/3.png' },
     { id: '4', name: 'Берсерк', img: 'images/4.png' },
@@ -96,48 +93,32 @@ const heroes = [
 
 let currentStep = 0;
 
-// 5. Отрисовка героев
-const grid = document.getElementById('heroes-grid');
-heroes.forEach(hero => {
-    const card = document.createElement('div');
-    card.className = 'hero-card';
-    card.style.backgroundImage = `url(${hero.img})`;
-    card.title = hero.name;
-    card.id = `hero-${hero.id}`;
-    
-    card.onclick = () => {
-        if (currentStep < draftSequence.length) {
-            const step = draftSequence[currentStep];
-            // Отправляем выбор в базу
-            set(ref(db, 'draft/history/' + currentStep), {
-                heroId: hero.id,
-                cap: step.cap,
-                type: step.type
-            });
-            // Переходим к следующему шагу в базе
-            set(ref(db, 'draft/currentStep'), currentStep + 1);
-        }
-    };
-    grid.appendChild(card);
-}// 6. Слушатель изменений в базе (синхронизация)
+// ГЛАВНЫЙ СЛУШАТЕЛЬ
 onValue(ref(db, 'draft'), (snapshot) => {
     const data = snapshot.val();
     
-    // Сначала ВСЕГДА очищаем сетку и списки, чтобы экран не "зависал"
+    // 1. Очищаем все контейнеры
     document.getElementById('heroes-grid').innerHTML = '';
     document.getElementById('cap1-picks').innerHTML = '';
     document.getElementById('cap1-bans').innerHTML = '';
     document.getElementById('cap2-picks').innerHTML = '';
     document.getElementById('cap2-bans').innerHTML = '';
 
-    // Заново рисуем всех героев из массива heroes
+    // 2. Рисуем сетку героев
     heroes.forEach(hero => {
         const card = document.createElement('div');
         card.className = 'hero-card';
         card.style.backgroundImage = `url(${hero.img})`;
         card.id = `hero-${hero.id}`;
+        card.title = hero.name;
+
+        // Логика клика
         card.onclick = () => {
             if (currentStep < draftSequence.length) {
+                // Проверяем, не выбран ли герой уже
+                if (data && data.history && Object.values(data.history).some(a => a.heroId === hero.id)) {
+                    return; // Герой уже занят
+                }
                 const step = draftSequence[currentStep];
                 set(ref(db, 'draft/history/' + currentStep), {
                     heroId: hero.id,
@@ -150,47 +131,53 @@ onValue(ref(db, 'draft'), (snapshot) => {
         document.getElementById('heroes-grid').appendChild(card);
     });
 
-    // Если в базе пусто, просто ставим 0 шаг и выходим
+    // 3. Обработка данных из базы
     if (!data) {
         currentStep = 0;
         document.getElementById('turn-info').innerText = "Очередь: Капитан 1 (БАН)";
-        document.getElementById('current-action').innerText = "Начните драфт";
         return;
     }
 
     currentStep = data.currentStep || 0;
 
-    // Подсвечиваем тех, кто уже выбран
     if (data.history) {
         Object.values(data.history).forEach(act => {
+            // Подсветка в сетке
             const el = document.getElementById(`hero-${act.heroId}`);
             if (el) el.classList.add(act.type === 'ban' ? 'banned' : 'picked');
 
+            // Добавление в боковые списки
             const heroData = heroes.find(h => h.id === act.heroId);
             if (heroData) {
                 const miniIcon = document.createElement('div');
                 miniIcon.className = `mini-card ${act.type}`;
                 miniIcon.style.backgroundImage = `url(${heroData.img})`;
                 const containerId = `cap${act.cap}-${act.type}s`;
-                document.getElementById(containerId).appendChild(miniIcon);
+                const container = document.getElementById(containerId);
+                if (container) container.appendChild(miniIcon);
             }
         });
     }
 
-    // Обновляем текст очереди
+    // 4. Обновление статуса
     const info = document.getElementById('turn-info');
     if (currentStep < draftSequence.length) {
         const next = draftSequence[currentStep];
         info.innerText = `Очередь: Капитан ${next.cap} (${next.type === 'ban' ? 'БАН' : 'ПИК'})`;
-        document.getElementById('current-action').innerText = "Идет выбор...";
     } else {
         info.innerText = "ДРАФТ ОКОНЧЕН";
     }
 });
-    }
-});
-);
 
-
-
-
+// КНОПКА СБРОСА
+const resetBtn = document.getElementById('reset-btn');
+if (resetBtn) {
+    resetBtn.onclick = () => {
+        if (confirm("Вы точно хотите сбросить весь драфт?")) {
+            set(ref(db, 'draft'), {
+                currentStep: 0,
+                history: {}
+            }).then(() => location.reload());
+        }
+    };
+}
