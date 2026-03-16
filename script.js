@@ -119,9 +119,7 @@ heroes.forEach(hero => {
         }
     };
     grid.appendChild(card);
-});
-
-// 6. Слушатель изменений в базе (синхронизация)
+}// 6. Слушатель изменений в базе (синхронизация)
 onValue(ref(db, 'draft'), (snapshot) => {
     const data = snapshot.val();
     if (!data) return;
@@ -169,16 +167,8 @@ onValue(ref(db, 'draft'), (snapshot) => {
         document.getElementById('current-action').innerText = "Финал";
     }
 });
+);
 
-// Импортируй функцию remove в начале файла, где остальные импорты:
-// import { ... , remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-document.getElementById('reset-btn').onclick = () => {
-    if (confirm("Вы точно хотите сбросить весь драфт?")) {
-        set(ref(db, 'draft'), {
-            currentStep: 0,
-            history: {}
-        });
-        location.reload(); // Перезагрузит страницу, чтобы всё очистилось визуально
-    }
-};
+
+
