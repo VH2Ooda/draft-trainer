@@ -122,41 +122,62 @@ heroes.forEach(hero => {
 }// 6. Слушатель изменений в базе (синхронизация)
 onValue(ref(db, 'draft'), (snapshot) => {
     const data = snapshot.val();
-    if (!data) return;
-
-    currentStep = data.currentStep || 0;
-
-    // Очищаем списки по бокам перед отрисовкой
+    
+    // Сначала ВСЕГДА очищаем сетку и списки, чтобы экран не "зависал"
+    document.getElementById('heroes-grid').innerHTML = '';
     document.getElementById('cap1-picks').innerHTML = '';
     document.getElementById('cap1-bans').innerHTML = '';
     document.getElementById('cap2-picks').innerHTML = '';
     document.getElementById('cap2-bans').innerHTML = '';
 
-    // Сбрасываем стили всех карточек в сетке
-    document.querySelectorAll('.hero-card').forEach(c => c.className = 'hero-card');
+    // Заново рисуем всех героев из массива heroes
+    heroes.forEach(hero => {
+        const card = document.createElement('div');
+        card.className = 'hero-card';
+        card.style.backgroundImage = `url(${hero.img})`;
+        card.id = `hero-${hero.id}`;
+        card.onclick = () => {
+            if (currentStep < draftSequence.length) {
+                const step = draftSequence[currentStep];
+                set(ref(db, 'draft/history/' + currentStep), {
+                    heroId: hero.id,
+                    cap: step.cap,
+                    type: step.type
+                });
+                set(ref(db, 'draft/currentStep'), currentStep + 1);
+            }
+        };
+        document.getElementById('heroes-grid').appendChild(card);
+    });
 
+    // Если в базе пусто, просто ставим 0 шаг и выходим
+    if (!data) {
+        currentStep = 0;
+        document.getElementById('turn-info').innerText = "Очередь: Капитан 1 (БАН)";
+        document.getElementById('current-action').innerText = "Начните драфт";
+        return;
+    }
+
+    currentStep = data.currentStep || 0;
+
+    // Подсвечиваем тех, кто уже выбран
     if (data.history) {
         Object.values(data.history).forEach(act => {
-            // 1. Подсвечиваем в центральной сетке
             const el = document.getElementById(`hero-${act.heroId}`);
             if (el) el.classList.add(act.type === 'ban' ? 'banned' : 'picked');
 
-            // 2. Добавляем маленькую иконку в боковую панель
             const heroData = heroes.find(h => h.id === act.heroId);
             if (heroData) {
                 const miniIcon = document.createElement('div');
                 miniIcon.className = `mini-card ${act.type}`;
                 miniIcon.style.backgroundImage = `url(${heroData.img})`;
-                miniIcon.title = heroData.name;
-
-                // Определяем, в какой контейнер положить
                 const containerId = `cap${act.cap}-${act.type}s`;
                 document.getElementById(containerId).appendChild(miniIcon);
             }
         });
     }
 
-    // Обновляем статус
+    // Обновляем текст очереди
     const info = document.getElementById('turn-info');
     if (currentStep < draftSequence.length) {
         const next = draftSequence[currentStep];
@@ -164,7 +185,8 @@ onValue(ref(db, 'draft'), (snapshot) => {
         document.getElementById('current-action').innerText = "Идет выбор...";
     } else {
         info.innerText = "ДРАФТ ОКОНЧЕН";
-        document.getElementById('current-action').innerText = "Финал";
+    }
+});
     }
 });
 );
