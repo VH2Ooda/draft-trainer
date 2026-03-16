@@ -1,16 +1,22 @@
-// 1. Импорт функций Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+С твоим index.html всё в порядке, структура правильная. Если сайт всё равно белый или «висит», значит, проблема в script.js.
 
-// 2. Твои настройки
+Скорее всего, код «ломается» из-за того, что ты добавил в конец лишнюю скобку или оставил дубликат старого кода. Давай сделаем «чистую установку».
+
+Вот финальный, исправленный script.js
+Я убрал всё лишнее, исправил ошибки со скобками и добавил защиту. Удали всё из своего script.js и вставь этот код целиком:
+
+JavaScript
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCmaS0aFRmkXQPR_vnxDipo_OyKHirKXE4",
-  authDomain: "draft-trainer-d22f0.firebaseapp.com",
-  databaseURL: "https://draft-trainer-d22f0-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "draft-trainer-d22f0",
-  storageBucket: "draft-trainer-d22f0.firebasestorage.app",
-  messagingSenderId: "949975758587",
-  appId: "1:949975758587:web:00adf7088d01dc4ad5625e"
+    apiKey: "AIzaSyCmaS0aFRmkXQPR_vnxDipo_OyKHirKXE4",
+    authDomain: "draft-trainer-d22f0.firebaseapp.com",
+    databaseURL: "https://draft-trainer-d22f0-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "draft-trainer-d22f0",
+    storageBucket: "draft-trainer-d22f0.firebasestorage.app",
+    messagingSenderId: "949975758587",
+    appId: "1:949975758587:web:00adf7088d01dc4ad5625e"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -93,32 +99,31 @@ const heroes = [
 
 let currentStep = 0;
 
-// ГЛАВНЫЙ СЛУШАТЕЛЬ
 onValue(ref(db, 'draft'), (snapshot) => {
     const data = snapshot.val();
     
-    // 1. Очищаем все контейнеры
-    document.getElementById('heroes-grid').innerHTML = '';
-    document.getElementById('cap1-picks').innerHTML = '';
-    document.getElementById('cap1-bans').innerHTML = '';
-    document.getElementById('cap2-picks').innerHTML = '';
-    document.getElementById('cap2-bans').innerHTML = '';
+    // Очистка перед отрисовкой
+    const grid = document.getElementById('heroes-grid');
+    if (grid) grid.innerHTML = '';
+    
+    const containers = ['cap1-picks', 'cap1-bans', 'cap2-picks', 'cap2-bans'];
+    containers.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = '';
+    });
 
-    // 2. Рисуем сетку героев
+    // Рисуем героев
     heroes.forEach(hero => {
         const card = document.createElement('div');
         card.className = 'hero-card';
         card.style.backgroundImage = `url(${hero.img})`;
         card.id = `hero-${hero.id}`;
-        card.title = hero.name;
-
-        // Логика клика
+        
         card.onclick = () => {
             if (currentStep < draftSequence.length) {
-                // Проверяем, не выбран ли герой уже
-                if (data && data.history && Object.values(data.history).some(a => a.heroId === hero.id)) {
-                    return; // Герой уже занят
-                }
+                // Защита от повторного клика по уже выбранному
+                if (data && data.history && Object.values(data.history).some(a => a.heroId === hero.id)) return;
+                
                 const step = draftSequence[currentStep];
                 set(ref(db, 'draft/history/' + currentStep), {
                     heroId: hero.id,
@@ -128,10 +133,9 @@ onValue(ref(db, 'draft'), (snapshot) => {
                 set(ref(db, 'draft/currentStep'), currentStep + 1);
             }
         };
-        document.getElementById('heroes-grid').appendChild(card);
+        if (grid) grid.appendChild(card);
     });
 
-    // 3. Обработка данных из базы
     if (!data) {
         currentStep = 0;
         document.getElementById('turn-info').innerText = "Очередь: Капитан 1 (БАН)";
@@ -140,13 +144,12 @@ onValue(ref(db, 'draft'), (snapshot) => {
 
     currentStep = data.currentStep || 0;
 
+    // Подсветка и боковые списки
     if (data.history) {
         Object.values(data.history).forEach(act => {
-            // Подсветка в сетке
             const el = document.getElementById(`hero-${act.heroId}`);
             if (el) el.classList.add(act.type === 'ban' ? 'banned' : 'picked');
 
-            // Добавление в боковые списки
             const heroData = heroes.find(h => h.id === act.heroId);
             if (heroData) {
                 const miniIcon = document.createElement('div');
@@ -159,25 +162,24 @@ onValue(ref(db, 'draft'), (snapshot) => {
         });
     }
 
-    // 4. Обновление статуса
     const info = document.getElementById('turn-info');
+    const action = document.getElementById('current-action');
     if (currentStep < draftSequence.length) {
         const next = draftSequence[currentStep];
-        info.innerText = `Очередь: Капитан ${next.cap} (${next.type === 'ban' ? 'БАН' : 'ПИК'})`;
+        if (info) info.innerText = `Очередь: Капитан ${next.cap} (${next.type === 'ban' ? 'БАН' : 'ПИК'})`;
+        if (action) action.innerText = "Идет выбор...";
     } else {
-        info.innerText = "ДРАФТ ОКОНЧЕН";
+        if (info) info.innerText = "ДРАФТ ОКОНЧЕН";
+        if (action) action.innerText = "Финал";
     }
 });
 
-// КНОПКА СБРОСА
-const resetBtn = document.getElementById('reset-btn');
-if (resetBtn) {
-    resetBtn.onclick = () => {
-        if (confirm("Вы точно хотите сбросить весь драфт?")) {
-            set(ref(db, 'draft'), {
-                currentStep: 0,
-                history: {}
-            }).then(() => location.reload());
+// Сброс
+const rb = document.getElementById('reset-btn');
+if (rb) {
+    rb.onclick = () => {
+        if (confirm("Сбросить драфт?")) {
+            set(ref(db, 'draft'), { currentStep: 0, history: {} });
         }
     };
 }
