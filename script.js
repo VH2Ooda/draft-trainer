@@ -148,4 +148,16 @@ onValue(ref(db, 'draft'), (snapshot) => {
         info.innerText = "Драфт окончен!";
     }
 });
-<button id="reset-btn" style="margin: 10px; padding: 10px; cursor: pointer;">Сбросить драфт</button>
+
+// Импортируй функцию remove в начале файла, где остальные импорты:
+// import { ... , remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+document.getElementById('reset-btn').onclick = () => {
+    if (confirm("Вы точно хотите сбросить весь драфт?")) {
+        set(ref(db, 'draft'), {
+            currentStep: 0,
+            history: {}
+        });
+        location.reload(); // Перезагрузит страницу, чтобы всё очистилось визуально
+    }
+};
