@@ -1,1 +1,54 @@
+body {
+    background-color: #1a1a1b;
+    color: white;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+.draft-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6 персонажей в ряд */
+    gap: 10px;
+    padding: 20px;
+    background: #2b2b2c;
+    border-radius: 10px;
+}
+
+.hero-card {
+    width: 80px;
+    height: 80px;
+    border: 2px solid #444;
+    cursor: pointer;
+    transition: 0.2s;
+    background-size: cover;
+}
+
+.hero-card:hover {
+    border-color: #00ff00;
+    transform: scale(1.1);
+}
+
+.hero-card.banned {
+    filter: grayscale(1) brightness(0.5);
+    border-color: red;
+    pointer-events: none;
+}
+
+.hero-card.picked {
+    border-color: #00acee;
+    pointer-events: none;
+}
+
+.side {
+    width: 200px;
+    text-align: center;
+}
