@@ -1,6 +1,3 @@
-
-
-JavaScript
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
@@ -93,32 +90,25 @@ const heroes = [
 ];
 
 let currentStep = 0;
+let lastData = null; // Для хранения истории и проверки занятых героев
 
-onValue(ref(db, 'draft'), (snapshot) => {
-    const data = snapshot.val();
-    
-    // Очистка перед отрисовкой
-    const grid = document.getElementById('heroes-grid');
-    if (grid) grid.innerHTML = '';
-    
-    const containers = ['cap1-picks', 'cap1-bans', 'cap2-picks', 'cap2-bans'];
-    containers.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.innerHTML = '';
-    });
-
-    // Рисуем героев
+// 1. Создаем сетку ОДИН РАЗ при загрузке
+const grid = document.getElementById('heroes-grid');
+if (grid) {
     heroes.forEach(hero => {
         const card = document.createElement('div');
         card.className = 'hero-card';
         card.style.backgroundImage = `url(${hero.img})`;
         card.id = `hero-${hero.id}`;
-        
+        card.title = hero.name;
+
         card.onclick = () => {
             if (currentStep < draftSequence.length) {
-                // Защита от повторного клика по уже выбранному
-                if (data && data.history && Object.values(data.history).some(a => a.heroId === hero.id)) return;
-                
+                // Проверяем, не занят ли герой (используем lastData)
+                const isTaken = lastData && lastData.history && 
+                                Object.values(lastData.history).some(a => a.heroId === hero.id);
+                if (isTaken) return;
+
                 const step = draftSequence[currentStep];
                 set(ref(db, 'draft/history/' + currentStep), {
                     heroId: hero.id,
@@ -128,35 +118,55 @@ onValue(ref(db, 'draft'), (snapshot) => {
                 set(ref(db, 'draft/currentStep'), currentStep + 1);
             }
         };
-        if (grid) grid.appendChild(card);
+        grid.appendChild(card);
+    });
+}
+
+// 2. Слушаем изменения (только обновляем статусы)
+onValue(ref(db, 'draft'), (snapshot) => {
+    const data = snapshot.val();
+    lastData = data; 
+    
+    // Сброс визуального состояния героев в сетке
+    document.querySelectorAll('.hero-card').forEach(card => {
+        card.classList.remove('banned', 'picked');
+    });
+    
+    // Очистка боковых контейнеров
+    ['cap1-picks', 'cap1-bans', 'cap2-picks', 'cap2-bans'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = '';
     });
 
     if (!data) {
         currentStep = 0;
-        document.getElementById('turn-info').innerText = "Очередь: Капитан 1 (БАН)";
+        updateUI();
         return;
     }
 
     currentStep = data.currentStep || 0;
 
-    // Подсветка и боковые списки
     if (data.history) {
         Object.values(data.history).forEach(act => {
+            // Подсветка в сетке
             const el = document.getElementById(`hero-${act.heroId}`);
             if (el) el.classList.add(act.type === 'ban' ? 'banned' : 'picked');
 
+            // Мини-иконка в боковую панель
             const heroData = heroes.find(h => h.id === act.heroId);
             if (heroData) {
                 const miniIcon = document.createElement('div');
                 miniIcon.className = `mini-card ${act.type}`;
                 miniIcon.style.backgroundImage = `url(${heroData.img})`;
-                const containerId = `cap${act.cap}-${act.type}s`;
-                const container = document.getElementById(containerId);
+                const container = document.getElementById(`cap${act.cap}-${act.type}s`);
                 if (container) container.appendChild(miniIcon);
             }
         });
     }
+    updateUI();
+});
 
+function updateUI() {
     const info = document.getElementById('turn-info');
     const action = document.getElementById('current-action');
     if (currentStep < draftSequence.length) {
@@ -167,7 +177,7 @@ onValue(ref(db, 'draft'), (snapshot) => {
         if (info) info.innerText = "ДРАФТ ОКОНЧЕН";
         if (action) action.innerText = "Финал";
     }
-});
+}
 
 // Сброс
 const rb = document.getElementById('reset-btn');
