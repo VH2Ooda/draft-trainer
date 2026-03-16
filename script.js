@@ -1,3 +1,13 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyCmaS0aFRmkXQPR_vnxDipo_OyKHirKXE4",
+  authDomain: "draft-trainer-d22f0.firebaseapp.com",
+  databaseURL: "https://draft-trainer-d22f0-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "draft-trainer-d22f0",
+  storageBucket: "draft-trainer-d22f0.firebasestorage.app",
+  messagingSenderId: "949975758587",
+  appId: "1:949975758587:web:00adf7088d01dc4ad5625e"
+};
+
 // Список персонажей CSC
 const heroes = [
     { id: '1', name: 'Бомбер', img: 'icons/1.png' },
