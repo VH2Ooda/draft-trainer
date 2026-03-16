@@ -148,3 +148,4 @@ onValue(ref(db, 'draft'), (snapshot) => {
         info.innerText = "Драфт окончен!";
     }
 });
+<button id="reset-btn" style="margin: 10px; padding: 10px; cursor: pointer;">Сбросить драфт</button>
