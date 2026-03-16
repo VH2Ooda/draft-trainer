@@ -1,3 +1,8 @@
+// 1. Импорт функций Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+// 2. Твои настройки
 const firebaseConfig = {
   apiKey: "AIzaSyCmaS0aFRmkXQPR_vnxDipo_OyKHirKXE4",
   authDomain: "draft-trainer-d22f0.firebaseapp.com",
@@ -8,7 +13,27 @@ const firebaseConfig = {
   appId: "1:949975758587:web:00adf7088d01dc4ad5625e"
 };
 
-// Список персонажей CSC
+// Инициализация
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// 3. Твоя последовательность драфта (24 шага)
+const draftSequence = [
+    { cap: 1, type: 'ban' }, { cap: 1, type: 'ban' },
+    { cap: 2, type: 'ban' }, { cap: 2, type: 'ban' },
+    { cap: 2, type: 'pick' }, { cap: 1, type: 'pick' },
+    { cap: 2, type: 'pick' }, { cap: 1, type: 'pick' },
+    { cap: 1, type: 'ban' }, { cap: 2, type: 'ban' },
+    { cap: 1, type: 'ban' }, { cap: 2, type: 'ban' },
+    { cap: 1, type: 'pick' }, { cap: 1, type: 'pick' },
+    { cap: 2, type: 'pick' }, { cap: 2, type: 'pick' },
+    { cap: 1, type: 'ban' }, { cap: 1, type: 'ban' },
+    { cap: 2, type: 'ban' }, { cap: 2, type: 'ban' },
+    { cap: 2, type: 'pick' }, { cap: 1, type: 'pick' },
+    { cap: 2, type: 'pick' }, { cap: 1, type: 'pick' }
+];
+
+// 4. Твой массив персонажей
 const heroes = [
     { id: '1', name: 'Бомбер', img: 'icons/1.png' },
     { id: '2', name: 'Лучник', img: 'icons/2.png' },
@@ -69,19 +94,57 @@ const heroes = [
     { id: '57', name: 'Ледяной король', img: 'icons/57.png' }
 ];
 
-// Функция для отрисовки сетки
-const grid = document.getElementById('heroes-grid');
+let currentStep = 0;
 
+// 5. Отрисовка героев
+const grid = document.getElementById('heroes-grid');
 heroes.forEach(hero => {
     const card = document.createElement('div');
     card.className = 'hero-card';
     card.style.backgroundImage = `url(${hero.img})`;
     card.title = hero.name;
+    card.id = `hero-${hero.id}`;
     
     card.onclick = () => {
-        console.log('Выбран герой:', hero.name);
-        // Здесь будет логика отправки в Firebase
+        if (currentStep < draftSequence.length) {
+            const step = draftSequence[currentStep];
+            // Отправляем выбор в базу
+            set(ref(db, 'draft/history/' + currentStep), {
+                heroId: hero.id,
+                cap: step.cap,
+                type: step.type
+            });
+            // Переходим к следующему шагу в базе
+            set(ref(db, 'draft/currentStep'), currentStep + 1);
+        }
     };
-    
     grid.appendChild(card);
+});
+
+// 6. Слушатель изменений в базе (синхронизация)
+onValue(ref(db, 'draft'), (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    currentStep = data.currentStep || 0;
+
+    // Сбрасываем стили всех карточек перед обновлением
+    document.querySelectorAll('.hero-card').forEach(c => c.className = 'hero-card');
+
+    // Помечаем выбранных героев
+    if (data.history) {
+        Object.values(data.history).forEach(act => {
+            const el = document.getElementById(`hero-${act.heroId}`);
+            if (el) el.classList.add(act.type === 'ban' ? 'banned' : 'picked');
+        });
+    }
+
+    // Обновляем текст хода
+    const info = document.getElementById('turn-info');
+    if (currentStep < draftSequence.length) {
+        const next = draftSequence[currentStep];
+        info.innerText = `Очередь: Капитан ${next.cap} (${next.type === 'ban' ? 'БАН' : 'ПИК'})`;
+    } else {
+        info.innerText = "Драфт окончен!";
+    }
 });
