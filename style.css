@@ -55,7 +55,7 @@ body {
 
 /* Мини-карточки в боковых панелях */
 .mini-card {
-    width: 50px;
+    width: 100px;
     height: 50px;
     background-size: cover;
     margin: 5px;
