@@ -1,26 +1,33 @@
-/* Мини-карточки в боковых панелях */
+.draft-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.columns {
+    display: flex;
+    gap: 15px;
+}
+
+.mini-list {
+    display: flex;
+    flex-direction: column; /* Это выстраивает их в столбик */
+    gap: 5px;
+    min-width: 50px;
+    min-height: 200px;
+    background: rgba(255,255,255,0.05);
+    padding: 5px;
+    border-radius: 5px;
+}
+
 .mini-card {
     width: 50px;
     height: 50px;
     background-size: cover;
-    margin: 5px;
-    border: 2px solid white;
-    display: inline-block;
+    border: 2px solid #555;
 }
 
-.mini-card.ban {
-    border-color: #ff4d4d; /* Красный для банов */
-    filter: grayscale(100%);
-    opacity: 0.6;
-}
-
-.mini-card.pick {
-    border-color: #4dff4d; /* Зеленый для пиков */
-}
-
-.picks, .bans {
-    display: flex;
-    flex-wrap: wrap;
-    min-height: 60px;
-    margin-bottom: 20px;
-}
+.mini-card.pick { border-color: #2ecc71; } /* Зеленый для пиков */
+.mini-card.ban { 
+    border-color: #e74c3c; 
+    filter: grayscale(1) brightness(0.7); /* ЧБ для банов */
