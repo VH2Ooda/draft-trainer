@@ -49,18 +49,19 @@ body {
 }
 
 .side {
-    width: 200px;
+    width: 250px; /* Было 200px */
     text-align: center;
 }
 
-/* Мини-карточки в боковых панелях */
+/* Мини-карточки в боковых панелях (теперь крупнее) */
 .mini-card {
-    width: 50px;
-    height: 50px;
+    width: 70px;  /* Было 50px */
+    height: 70px; /* Было 50px */
     background-size: cover;
     margin: 5px;
     border: 2px solid white;
     display: inline-block;
+    border-radius: 4px; /* Можно добавить немного скругления для красоты */
 }
 
 .mini-card.ban {
