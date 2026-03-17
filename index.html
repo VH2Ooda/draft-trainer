@@ -1,39 +1,50 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Draft Trainer</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div id="status-bar">
-        <h2 id="current-action">Загрузка...</h2>
-        <p id="turn-info">Очередь Капитана 1</p>
-    </div>
+/* Боковые панели капитанов */
+.side {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
 
-    <div class="draft-container">
-        <div id="cap1-side" class="side">
-            <h3>Капитан 1</h3>
-            <div class="label">ПИКИ</div>
-            <div id="cap1-picks" class="mini-grid-stable"></div>
-            
-            <div class="label">БАНЫ</div>
-            <div id="cap1-bans" class="mini-grid-stable"></div>
-        </div>
+.label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #888;
+    margin: 15px 0 5px 0;
+    letter-spacing: 1px;
+}
 
-        <div id="heroes-grid" class="grid"></div>
+/* Сетка 2 на 3 */
+.mini-grid-stable {
+    display: grid;
+    /* 2 колонки по 80px */
+    grid-template-columns: repeat(2, 80px); 
+    /* 3 ряда по 80px */
+    grid-template-rows: repeat(3, 80px);    
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    /* Фиксируем высоту, чтобы сетка не «прыгала» при заполнении */
+    min-height: 260px; 
+}
 
-        <div id="cap2-side" class="side">
-            <h3>Капитан 2</h3>
-            <div class="label">ПИКИ</div>
-            <div id="cap2-picks" class="mini-grid-stable"></div>
-            
-            <div class="label">БАНЫ</div>
-            <div id="cap2-bans" class="mini-grid-stable"></div>
-        </div>
-    </div>
+/* Мини-карточки (пики и баны) */
+.mini-card {
+    width: 80px;
+    height: 80px;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid white;
+    box-sizing: border-box;
+}
 
-    <button id="reset-btn" style="margin: 10px; padding: 10px; cursor: pointer;">Сбросить драфт</button>
-    <script type="module" src="script.js"></script>
-</body>
-</html>
+.mini-card.pick {
+    border-color: #4dff4d; /* Зеленый для пиков */
+}
+
+.mini-card.ban {
+    border-color: #ff4d4d; /* Красный для банов */
+    filter: grayscale(100%) brightness(0.6);
+}
