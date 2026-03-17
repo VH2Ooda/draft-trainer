@@ -75,7 +75,6 @@ body {
 
 .picks, .bans {
     display: flex;
-    flex-wrap: wrap;
     flex-direction: column;
     min-height: 60px;
     margin-bottom: 20px;
