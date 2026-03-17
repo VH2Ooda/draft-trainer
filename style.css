@@ -58,7 +58,7 @@ body {
     width: 100px;
     height: 100px;
     background-size: cover;
-    margin: 5px;
+    margin: 10px;
     border: 2px solid white;
     display: inline-block;
 }
