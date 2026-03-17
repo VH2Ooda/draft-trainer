@@ -124,51 +124,131 @@ if (grid) {
 
 // 2. Слушаем изменения (только обновляем статусы)
 onValue(ref(db, 'draft'), (snapshot) => {
+
     const data = snapshot.val();
+
     lastData = data; 
+
     
-    // 1. Сброс визуального состояния в главной сетке
+
+    // Сброс визуального состояния героев в сетке
+
     document.querySelectorAll('.hero-card').forEach(card => {
+
         card.classList.remove('banned', 'picked');
-    });
-    
-    // 2. Очистка всех ЧЕТЫРЕХ контейнеров (Пики и Баны)
-    const containers = ['cap1-picks', 'cap1-bans', 'cap2-picks', 'cap2-bans'];
-    containers.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.innerHTML = '';
+
     });
 
+    
+
+    // Очистка боковых контейнеров
+
+    ['cap1-picks', 'cap1-bans', 'cap2-picks', 'cap2-bans'].forEach(id => {
+
+        const el = document.getElementById(id);
+
+        if (el) el.innerHTML = '';
+
+    });
+
+
+
     if (!data) {
+
         currentStep = 0;
+
         updateUI();
+
         return;
+
     }
+
+
 
     currentStep = data.currentStep || 0;
 
-    // 3. Отрисовка истории (подсветка сетки и заполнение боковых панелей)
+
+
     if (data.history) {
+
         Object.values(data.history).forEach(act => {
-            // Подсветка героя в центральной сетке
+
+            // Подсветка в сетке
+
             const el = document.getElementById(`hero-${act.heroId}`);
+
             if (el) el.classList.add(act.type === 'ban' ? 'banned' : 'picked');
 
-            // Создание мини-карточки для боковой сетки 2x3
+
+
+            // Мини-иконка в боковую панель
+
             const heroData = heroes.find(h => h.id === act.heroId);
+
             if (heroData) {
+
                 const miniIcon = document.createElement('div');
-                miniIcon.className = `mini-card ${act.type}`; // Классы 'pick' или 'ban'
+
+                miniIcon.className = `mini-card ${act.type}`;
+
                 miniIcon.style.backgroundImage = `url(${heroData.img})`;
-                
-                // Находим нужный контейнер (cap1-picks, cap2-bans и т.д.)
-                const containerId = `cap${act.cap}-${act.type}s`;
-                const container = document.getElementById(containerId);
-                if (container) {
-                    container.appendChild(miniIcon);
-                }
+
+                const container = document.getElementById(`cap${act.cap}-${act.type}s`);
+
+                if (container) container.appendChild(miniIcon);
+
             }
+
         });
+
     }
+
     updateUI();
+
 });
+
+
+
+function updateUI() {
+
+    const info = document.getElementById('turn-info');
+
+    const action = document.getElementById('current-action');
+
+    if (currentStep < draftSequence.length) {
+
+        const next = draftSequence[currentStep];
+
+        if (info) info.innerText = `Очередь: Капитан ${next.cap} (${next.type === 'ban' ? 'БАН' : 'ПИК'})`;
+
+        if (action) action.innerText = "Идет выбор...";
+
+    } else {
+
+        if (info) info.innerText = "ДРАФТ ОКОНЧЕН";
+
+        if (action) action.innerText = "Финал";
+
+    }
+
+}
+
+
+
+// Сброс
+
+const rb = document.getElementById('reset-btn');
+
+if (rb) {
+
+    rb.onclick = () => {
+
+        if (confirm("Сбросить драфт?")) {
+
+            set(ref(db, 'draft'), { currentStep: 0, history: {} });
+
+        }
+
+    };
+
+}
