@@ -77,6 +77,5 @@ body {
     display: flex;
     flex-wrap: wrap;
     width: 50px;
-    min-height: 60px;
     margin-bottom: 20px;
 }
