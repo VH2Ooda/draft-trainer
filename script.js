@@ -86,8 +86,8 @@ const heroes = [
     { id: '54', name: 'Феникс', img: 'images/54.png' },
     { id: '55', name: 'Сирена', img: 'images/55.png' },
     { id: '56', name: 'Эреб', img: 'images/56.png' },
-    { id: '57', name: 'Ледяной король', img: 'images/57.png' }
-    { id: '58', name: 'Анемон', img: 'images/58.png' }
+    { id: '57', name: 'Ледяной король', img: 'images/57.png' },
+    { id: '58', name: 'Анемон', img: 'images/58.png' },
     { id: '59', name: 'Слайм', img: 'images/59.png' }
 ];
 
