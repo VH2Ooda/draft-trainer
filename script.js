@@ -29,67 +29,6 @@ const draftSequence = [
     { cap: 2, type: 'pick' }, { cap: 1, type: 'pick' }
 ];
 
-const heroes = [
-    { id: '1', name: '', img: 'images/1.png' },
-    { id: '2', name: '', img: 'images/2.png' },
-    { id: '3', name: '', img: 'images/3.png' },
-    { id: '4', name: '', img: 'images/4.png' },
-    { id: '5', name: '', img: 'images/5.png' },
-    { id: '6', name: '', img: 'images/6.png' },
-    { id: '7', name: '', img: 'images/7.png' },
-    { id: '8', name: '', img: 'images/8.png' },
-    { id: '9', name: '', img: 'images/9.png' },
-    { id: '10', name: '', img: 'images/10.png' },
-    { id: '11', name: '', img: 'images/11.png' },
-    { id: '12', name: '', img: 'images/12.png' },
-    { id: '13', name: '', img: 'images/13.png' },
-    { id: '14', name: '', img: 'images/14.png' },
-    { id: '15', name: '', img: 'images/15.png' },
-    { id: '16', name: '', img: 'images/16.png' },
-    { id: '17', name: '', img: 'images/17.png' },
-    { id: '18', name: '', img: 'images/18.png' },
-    { id: '19', name: '', img: 'images/19.png' },
-    { id: '20', name: '', img: 'images/20.png' },
-    { id: '21', name: '', img: 'images/21.png' },
-    { id: '22', name: '', img: 'images/22.png' },
-    { id: '23', name: '', img: 'images/23.png' },
-    { id: '24', name: '', img: 'images/24.png' },
-    { id: '25', name: '', img: 'images/25.png' },
-    { id: '26', name: '', img: 'images/26.png' },
-    { id: '27', name: '', img: 'images/27.png' },
-    { id: '28', name: '', img: 'images/28.png' },
-    { id: '29', name: '', img: 'images/29.png' },
-    { id: '30', name: '', img: 'images/30.png' },
-    { id: '31', name: '', img: 'images/31.png' },
-    { id: '32', name: '', img: 'images/32.png' },
-    { id: '33', name: '', img: 'images/33.png' },
-    { id: '34', name: '', img: 'images/34.png' },
-    { id: '35', name: '', img: 'images/35.png' },
-    { id: '36', name: '', img: 'images/36.png' },
-    { id: '37', name: '', img: 'images/37.png' },
-    { id: '38', name: '', img: 'images/38.png' },
-    { id: '39', name: '', img: 'images/39.png' },
-    { id: '40', name: '', img: 'images/40.png' },
-    { id: '41', name: '', img: 'images/41.png' },
-    { id: '42', name: '', img: 'images/42.png' },
-    { id: '43', name: '', img: 'images/43.png' },
-    { id: '44', name: '', img: 'images/44.png' },
-    { id: '45', name: '', img: 'images/45.png' },
-    { id: '46', name: '', img: 'images/46.png' },
-    { id: '47', name: '', img: 'images/47.png' },
-    { id: '48', name: '', img: 'images/48.png' },
-    { id: '49', name: '', img: 'images/49.png' },
-    { id: '50', name: '', img: 'images/50.png' },
-    { id: '51', name: '', img: 'images/51.png' },
-    { id: '52', name: '', img: 'images/52.png' },
-    { id: '53', name: '', img: 'images/53.png' },
-    { id: '54', name: '', img: 'images/54.png' },
-    { id: '55', name: '', img: 'images/55.png' },
-    { id: '56', name: '', img: 'images/56.png' },
-    { id: '57', name: '', img: 'images/57.png' },
-    { id: '58', name: '', img: 'images/58.png' },
-    { id: '59', name: '', img: 'images/59.png' }
-];
 const heroes = Array.from({ length: 59 }, (_, i) => ({
     id: (i + 1).toString(),
     name: '', 
@@ -99,7 +38,6 @@ const heroes = Array.from({ length: 59 }, (_, i) => ({
 let currentStep = 0;
 let lastData = null;
 
-// Элементы для тултипа (описания)
 const grid = document.getElementById('heroes-grid');
 const tooltip = document.getElementById('hero-tooltip');
 const tooltipImg = document.getElementById('tooltip-img');
@@ -110,10 +48,7 @@ if (grid) {
         card.className = 'hero-card';
         card.style.backgroundImage = `url(${hero.img})`;
         card.id = `hero-${hero.id}`;
-        card.title = hero.name;
 
-        // Логика наведения мыши
-        card.onmouseenter = (e) => {
         card.onmouseenter = () => {
             if (tooltipImg) tooltipImg.src = `images/desc/${hero.id}.png`;
             if (tooltip) tooltip.style.display = 'block';
@@ -121,33 +56,12 @@ if (grid) {
 
         card.onmousemove = (e) => {
             if (tooltip) {
-                const gap = 20; // Отступ по горизонтали
                 const gap = 20;
                 const tWidth = tooltip.offsetWidth;
                 const tHeight = tooltip.offsetHeight;
-
-                // 1. Центрируем по вертикали относительно курсора
                 let top = e.clientY - (tHeight / 2); 
-                
-                // 2. Позиция по горизонтали (справа от курсора)
                 let left = e.clientX + gap;
 
-                // --- ПРОВЕРКИ ГРАНИЦ ---
-
-                // Если уходит за ПРАВЫЙ край — перекидываем влево
-                if (left + tWidth > window.innerWidth) {
-                    left = e.clientX - tWidth - gap;
-                }
-
-                // Если уходит за НИЖНИЙ край — прижимаем к низу
-                if (top + tHeight > window.innerHeight) {
-                    top = window.innerHeight - tHeight - 10;
-                }
-
-                // Если уходит за ВЕРХНИЙ край — прижимаем к верху
-                if (top < 10) {
-                    top = 10;
-                }
                 if (left + tWidth > window.innerWidth) left = e.clientX - tWidth - gap;
                 if (top + tHeight > window.innerHeight) top = window.innerHeight - tHeight - 10;
                 if (top < 10) top = 10;
@@ -184,26 +98,14 @@ onValue(ref(db, 'draft'), (snapshot) => {
     const data = snapshot.val();
     lastData = data; 
 
-    document.querySelectorAll('.hero-card').forEach(card => {
-        card.classList.remove('banned', 'picked');
-    });
-    
     document.querySelectorAll('.hero-card').forEach(card => card.classList.remove('banned', 'picked'));
     ['cap1-picks', 'cap1-bans', 'cap2-picks', 'cap2-bans'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.innerHTML = '';
     });
 
-    if (!data) {
     if (!data || !data.history) {
         currentStep = 0;
-        updateUI();
-        return;
-    }
-
-    currentStep = data.currentStep || 0;
-
-    if (data.history) {
     } else {
         currentStep = data.currentStep || 0;
         Object.values(data.history).forEach(act => {
@@ -228,44 +130,47 @@ function updateUI() {
     const infoEl = document.getElementById('turn-info');
     const nextInfoEl = document.getElementById('next-turn-info');
 
-    // Если шаги еще есть
     if (currentStep < draftSequence.length) {
         const current = draftSequence[currentStep];
         const typeRu = current.type === 'ban' ? 'БАН' : 'ПИК';
 
         if (actionEl) actionEl.innerText = "Идет выбор...";
+        if (actionEl) actionEl.innerText = "ИДЕТ ВЫБОР...";
         
         if (infoEl) {
             infoEl.innerText = `Сейчас выбирает: Капитан ${current.cap} (${typeRu})`;
-            // Красим в красный для бана, в зеленый для пика
             infoEl.style.color = current.type === 'ban' ? '#ff4d4d' : '#4dff4d';
+            
+            // Сбрасываем старые классы и ставим новый в зависимости от капитана
+            infoEl.classList.remove('cap1-text', 'cap2-text');
+            infoEl.classList.add(current.cap === 1 ? 'cap1-text' : 'cap2-text');
         }
 
-        // Логика для следующего хода
         if (nextInfoEl) {
-            if (currentStep + 1 < draftSequence.length) {
-                const next = draftSequence[currentStep + 1];
             const next = draftSequence[currentStep + 1];
             if (next) {
                 const nextTypeRu = next.type === 'ban' ? 'БАН' : 'ПИК';
                 nextInfoEl.innerText = `Следующий: Капитан ${next.cap} (${nextTypeRu})`;
+                
+                // Подсвечиваем и следующего игрока (по желанию, можно оставить серым)
+                nextInfoEl.classList.remove('cap1-text', 'cap2-text');
+                nextInfoEl.classList.add(next.cap === 1 ? 'cap1-text' : 'cap2-text');
             } else {
-                nextInfoEl.innerText = "Это последний выбор!";
                 nextInfoEl.innerText = "Последний выбор!";
+                nextInfoEl.innerText = "Это последний ход!";
+                nextInfoEl.className = ""; // Сброс цвета
             }
         }
     } else {
-        // Если драфт завершен
         if (actionEl) actionEl.innerText = "ДРАФТ ОКОНЧЕН";
         if (infoEl) {
-            infoEl.innerText = "Все герои выбраны";
             infoEl.innerText = "Все герои распределены";
+            infoEl.className = ""; 
             infoEl.style.color = "white";
         }
         if (nextInfoEl) nextInfoEl.innerText = "";
     }
 }
-
 
 // Кнопка сброса
 const resetBtn = document.getElementById('reset-btn');
