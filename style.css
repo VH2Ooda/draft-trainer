@@ -127,3 +127,8 @@ body {
     width: 500px;
     height: auto;
 }
+
+.picks, .bans {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* центр мини-карточек */
