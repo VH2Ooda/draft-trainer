@@ -10,9 +10,10 @@ body {
 .draft-container {
     display: flex;
     justify-content: space-around;
-    align-items: center; /* <-- ключевое изменение */
+    align-items: flex-start; /* <-- важно */
     width: 100%;
     margin-top: 20px;
+}
 }
 
 .grid {
