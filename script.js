@@ -113,22 +113,29 @@ if (grid) {
             if (tooltip) tooltip.style.display = 'block';
         };
 
-        card.onmousemove = (e) => {
+       card.onmousemove = (e) => {
             if (tooltip) {
-                const tooltipWidth = tooltip.offsetWidth;
-                const tooltipHeight = tooltip.offsetHeight;
-                const gap = 15; // Отступ от курсора
-
-                // Проверяем правую границу экрана
+                const gap = 15;
                 let left = e.clientX + gap;
-                if (left + tooltipWidth > window.innerWidth) {
-                    left = e.clientX - tooltipWidth - gap;
+                let top = e.clientY + gap;
+
+                const tWidth = tooltip.offsetWidth;
+                const tHeight = tooltip.offsetHeight;
+
+                // 1. Проверка правой границы
+                if (left + tWidth > window.innerWidth) {
+                    left = e.clientX - tWidth - gap;
                 }
 
-                // Проверяем нижнюю границу экрана (ВАШ СЛУЧАЙ)
-                let top = e.clientY + gap;
-                if (top + tooltipHeight > window.innerHeight) {
-                    top = e.clientY - tooltipHeight - gap;
+                // 2. Проверка нижней границы
+                if (top + tHeight > window.innerHeight) {
+                    top = e.clientY - tHeight - gap;
+                }
+
+                // 3. ДОПОЛНИТЕЛЬНАЯ ПРОВЕРКА (для очень длинных описаний)
+                // Если после всех расчетов верх подсказки ушел выше края экрана (top < 0)
+                if (top < 10) {
+                    top = 10; // Прижимаем к верху с отступом 10px
                 }
 
                 tooltip.style.left = left + 'px';
