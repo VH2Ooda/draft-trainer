@@ -42,7 +42,7 @@ const heroes = [
     { id: '10', name: 'Мастер оружия', img: 'images/10.png' },
     { id: '11', name: 'Асасин', img: 'images/11.png' },
     { id: '12', name: 'Азартный', img: 'images/12.png' },
-    { id: '13', name: 'Бережный', img: 'images/13.png' },
+    { id: '13', name: '', img: 'images/13.png' },
     { id: '14', name: 'Реинкарнатор', img: 'images/14.png' },
     { id: '15', name: 'Собиратель', img: 'images/15.png' },
     { id: '16', name: 'Охотник на монстров', img: 'images/16.png' },
