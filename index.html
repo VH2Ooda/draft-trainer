@@ -6,11 +6,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="status-bar" style="text-align: center; margin-bottom: 100px;">
-    <div id="status-bar" style="text-align: center; margin-bottom: 10px;">
-        <h2 id="current-action" style="margin: 5px;">Загрузка...</h2>
-        <p id="turn-info" style="font-size: 1.2em; margin: 5px; font-weight: bold;"></p>
-        <p id="next-turn-info" style="opacity: 0.7; font-size: 0.9em; margin: 5px;"></p>
+    <div id="status-bar">
+        <h2 id="current-action">Загрузка...</h2>
+        <p id="turn-info">Очередь Капитана 1</p>
     </div>
 
     <div class="draft-container">
@@ -20,7 +18,8 @@
             <div id="cap1-bans" class="bans"></div>
         </div>
 
-        <div id="heroes-grid" class="grid"></div>
+        <div id="heroes-grid" class="grid">
+            </div>
 
         <div id="cap2-side" class="side">
             <h3>Капитан 2</h3>
@@ -29,16 +28,7 @@
         </div>
     </div>
 
-    <div style="text-align: center;">
-        <button id="reset-btn" style="margin: 20px; padding: 10px 20px; cursor: pointer; background: #444; color: white; border: none; border-radius: 5px;">
-            Сбросить драфт
-        </button>
-    </div>
-
-    <div id="hero-tooltip" class="tooltip">
-        <img id="tooltip-img" src="" alt="Описание">
-    </div>
-
+    <button id="reset-btn" style="margin: 10px; padding: 10px; cursor: pointer;">Сбросить драфт</button>
     <script type="module" src="script.js"></script>
 </body>
 </html>
