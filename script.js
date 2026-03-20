@@ -30,7 +30,7 @@ const draftSequence = [
 ];
 
 const heroes = [
-    { id: '1', name: 'Бомбер', img: 'images/1.png' },
+    { id: '1', name: '', img: 'images/1.png' },
     { id: '2', name: 'Лучник', img: 'images/2.png' },
     { id: '3', name: 'Мечник', img: 'images/3.png' },
     { id: '4', name: 'Берсерк', img: 'images/4.png' },
