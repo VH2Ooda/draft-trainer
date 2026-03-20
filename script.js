@@ -115,8 +115,24 @@ if (grid) {
 
         card.onmousemove = (e) => {
             if (tooltip) {
-                tooltip.style.left = (e.clientX + 15) + 'px';
-                tooltip.style.top = (e.clientY + 15) + 'px';
+                const tooltipWidth = tooltip.offsetWidth;
+                const tooltipHeight = tooltip.offsetHeight;
+                const gap = 15; // Отступ от курсора
+
+                // Проверяем правую границу экрана
+                let left = e.clientX + gap;
+                if (left + tooltipWidth > window.innerWidth) {
+                    left = e.clientX - tooltipWidth - gap;
+                }
+
+                // Проверяем нижнюю границу экрана (ВАШ СЛУЧАЙ)
+                let top = e.clientY + gap;
+                if (top + tooltipHeight > window.innerHeight) {
+                    top = e.clientY - tooltipHeight - gap;
+                }
+
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
             }
         };
 
