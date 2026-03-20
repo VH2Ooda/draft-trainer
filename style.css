@@ -81,20 +81,22 @@ body {
     margin-bottom: 20px;
 }
 
+/* Контейнер для подсказки */
 .tooltip {
-    position: fixed; /* Чтобы летала по экрану */
-    display: none;   /* Скрыта по умолчанию */
-    pointer-events: none; /* Чтобы мышка не "цеплялась" за саму подсказку */
+    position: fixed;
+    display: none;
+    pointer-events: none;
     z-index: 1000;
-    border: 2px solid #ffd700;
-    background: #000;
-    border-radius: 8px;
+    border: 3px solid #ffd700; /* Сделал рамку чуть толще */
+    background: #1a1a1b;
+    border-radius: 12px; /* Более мягкие углы */
     overflow: hidden;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    box-shadow: 0 0 30px rgba(0,0,0,0.8); /* Усилил тень для объема */
 }
 
+/* Сама картинка внутри подсказки */
 .tooltip img {
     display: block;
-    max-width: 300px; /* Ширина картинки с описанием */
-    height: auto;
+    width: 500px; /* Увеличил ширину до 500px (можете поставить 600px, если нужно еще больше) */
+    height: auto; /* Высота подстроится автоматически, чтобы не искажать пропорции */
 }
