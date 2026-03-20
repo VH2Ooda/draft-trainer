@@ -210,41 +210,41 @@ onValue(ref(db, 'draft'), (snapshot) => {
 });
 
 function updateUI() {
-    const info = document.getElementById('turn-info');
-    const nextInfo = document.getElementById('next-turn-info'); // Новый элемент
-    const action = document.getElementById('current-action');
+    const actionEl = document.getElementById('current-action');
+    const infoEl = document.getElementById('turn-info');
+    const nextInfoEl = document.getElementById('next-turn-info');
 
+    // Если шаги еще есть
     if (currentStep < draftSequence.length) {
         const current = draftSequence[currentStep];
+        const typeRu = current.type === 'ban' ? 'БАН' : 'ПИК';
         
-        // 1. Показываем текущий ход
-        if (info) {
-            const typeRu = current.type === 'ban' ? 'БАН' : 'ПИК';
-            info.innerText = `Сейчас выбирает: Капитан ${current.cap} (${typeRu})`;
-            // Можно добавить цвет текста для акцента
-            info.style.color = current.type === 'ban' ? '#ff4d4d' : '#4dff4d';
+        if (actionEl) actionEl.innerText = "Идет выбор...";
+        
+        if (infoEl) {
+            infoEl.innerText = `Сейчас выбирает: Капитан ${current.cap} (${typeRu})`;
+            // Красим в красный для бана, в зеленый для пика
+            infoEl.style.color = current.type === 'ban' ? '#ff4d4d' : '#4dff4d';
         }
 
-        // 2. Логика для СЛЕДУЮЩЕГО хода
-        if (nextInfo) {
+        // Логика для следующего хода
+        if (nextInfoEl) {
             if (currentStep + 1 < draftSequence.length) {
                 const next = draftSequence[currentStep + 1];
                 const nextTypeRu = next.type === 'ban' ? 'БАН' : 'ПИК';
-                nextInfo.innerText = `Следующий: Капитан ${next.cap} (${nextTypeRu})`;
+                nextInfoEl.innerText = `Следующий: Капитан ${next.cap} (${nextTypeRu})`;
             } else {
-                nextInfo.innerText = "Это последний выбор!";
+                nextInfoEl.innerText = "Это последний выбор!";
             }
         }
-
-        if (action) action.innerText = "Идет выбор...";
     } else {
-        // Конец драфта
-        if (info) {
-            info.innerText = "ДРАФТ ОКОНЧЕН";
-            info.style.color = "white";
+        // Если драфт завершен
+        if (actionEl) actionEl.innerText = "ДРАФТ ОКОНЧЕН";
+        if (infoEl) {
+            infoEl.innerText = "Все герои выбраны";
+            infoEl.style.color = "white";
         }
-        if (nextInfo) nextInfo.innerText = "";
-        if (action) action.innerText = "Финал";
+        if (nextInfoEl) nextInfoEl.innerText = "";
     }
 }
 
