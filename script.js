@@ -29,54 +29,84 @@ const draftSequence = [
     { cap: 2, type: 'pick' }, { cap: 1, type: 'pick' }
 ];
 
-const heroes = Array.from({ length: 59 }, (_, i) => ({
-    id: (i + 1).toString(),
-    name: '', 
-    img: `images/${i + 1}.png`
-}));
+const heroes = [
+    { id: '1', name: 'Бомбер', img: 'images/1.png' },
+    { id: '2', name: 'Лучник', img: 'images/2.png' },
+    { id: '3', name: 'Мечник', img: 'images/3.png' },
+    { id: '4', name: 'Берсерк', img: 'images/4.png' },
+    { id: '5', name: 'Везунчик', img: 'images/5.png' },
+    { id: '6', name: 'Гладиатор', img: 'images/6.png' },
+    { id: '7', name: 'Алхимик', img: 'images/7.png' },
+    { id: '8', name: 'Титан', img: 'images/8.png' },
+    { id: '9', name: 'Ловкач', img: 'images/9.png' },
+    { id: '10', name: 'Мастер оружия', img: 'images/10.png' },
+    { id: '11', name: 'Асасин', img: 'images/11.png' },
+    { id: '12', name: 'Азартный', img: 'images/12.png' },
+    { id: '13', name: 'Бережный', img: 'images/13.png' },
+    { id: '14', name: 'Реинкарнатор', img: 'images/14.png' },
+    { id: '15', name: 'Собиратель', img: 'images/15.png' },
+    { id: '16', name: 'Охотник на монстров', img: 'images/16.png' },
+    { id: '17', name: 'Вампир', img: 'images/17.png' },
+    { id: '18', name: 'Иглогриф', img: 'images/18.png' },
+    { id: '19', name: 'Головорез', img: 'images/19.png' },
+    { id: '20', name: 'ОЗС', img: 'images/20.png' },
+    { id: '21', name: 'Кузнец', img: 'images/21.png' },
+    { id: '22', name: 'Джин', img: 'images/22.png' },
+    { id: '23', name: 'Барахольщик', img: 'images/23.png' },
+    { id: '24', name: 'Дубликант', img: 'images/24.png' },
+    { id: '25', name: 'Библиотекарь', img: 'images/25.png' },
+    { id: '26', name: 'Лекарь', img: 'images/26.png' },
+    { id: '27', name: 'Древний', img: 'images/27.png' },
+    { id: '28', name: 'Мясник', img: 'images/28.png' },
+    { id: '29', name: 'ОНД', img: 'images/29.png' },
+    { id: '30', name: 'Снежный человек', img: 'images/30.png' },
+    { id: '31', name: 'Мастер тетевы', img: 'images/31.png' },
+    { id: '32', name: 'Паладин', img: 'images/32.png' },
+    { id: '33', name: 'Пират', img: 'images/33.png' },
+    { id: '34', name: 'Горгона', img: 'images/34.png' },
+    { id: '35', name: 'Вурдалак', img: 'images/35.png' },
+    { id: '36', name: 'Голем', img: 'images/36.png' },
+    { id: '37', name: 'Громозверь', img: 'images/37.png' },
+    { id: '38', name: 'Наваха', img: 'images/38.png' },
+    { id: '39', name: 'Брик', img: 'images/39.png' },
+    { id: '40', name: 'Арес', img: 'images/40.png' },
+    { id: '41', name: 'Леший', img: 'images/41.png' },
+    { id: '42', name: 'Скаробей', img: 'images/42.png' },
+    { id: '43', name: 'Фенрир', img: 'images/43.png' },
+    { id: '44', name: 'Сетх', img: 'images/44.png' },
+    { id: '45', name: 'Хоккай', img: 'images/45.png' },
+    { id: '46', name: 'КП', img: 'images/46.png' },
+    { id: '47', name: 'Зехир', img: 'images/47.png' },
+    { id: '48', name: 'Ведьмак', img: 'images/48.png' },
+    { id: '49', name: 'Варден', img: 'images/49.png' },
+    { id: '50', name: 'Зелиген', img: 'images/50.png' },
+    { id: '51', name: 'Велес', img: 'images/51.png' },
+    { id: '52', name: 'Хранитель лаберинтов', img: 'images/52.png' },
+    { id: '53', name: 'Люр', img: 'images/53.png' },
+    { id: '54', name: 'Феникс', img: 'images/54.png' },
+    { id: '55', name: 'Сирена', img: 'images/55.png' },
+    { id: '56', name: 'Эреб', img: 'images/56.png' },
+    { id: '57', name: 'Ледяной король', img: 'images/57.png' },
+    { id: '58', name: 'Анемон', img: 'images/58.png' },
+    { id: '59', name: 'Слайм', img: 'images/59.png' }
+];
 
 let currentStep = 0;
-let lastData = null;
+let lastData = null; // Для хранения истории и проверки занятых героев
 
+// 1. Создаем сетку ОДИН РАЗ при загрузке
 const grid = document.getElementById('heroes-grid');
-const tooltip = document.getElementById('hero-tooltip');
-const tooltipImg = document.getElementById('tooltip-img');
-
 if (grid) {
     heroes.forEach(hero => {
         const card = document.createElement('div');
         card.className = 'hero-card';
         card.style.backgroundImage = `url(${hero.img})`;
         card.id = `hero-${hero.id}`;
-
-        card.onmouseenter = () => {
-            if (tooltipImg) tooltipImg.src = `images/desc/${hero.id}.png`;
-            if (tooltip) tooltip.style.display = 'block';
-        };
-
-        card.onmousemove = (e) => {
-            if (tooltip) {
-                const gap = 20;
-                const tWidth = tooltip.offsetWidth;
-                const tHeight = tooltip.offsetHeight;
-                let top = e.clientY - (tHeight / 2); 
-                let left = e.clientX + gap;
-
-                if (left + tWidth > window.innerWidth) left = e.clientX - tWidth - gap;
-                if (top + tHeight > window.innerHeight) top = window.innerHeight - tHeight - 10;
-                if (top < 10) top = 10;
-
-                tooltip.style.left = left + 'px';
-                tooltip.style.top = top + 'px';
-            }
-        };
-
-        card.onmouseleave = () => {
-            if (tooltip) tooltip.style.display = 'none';
-        };
+        card.title = hero.name;
 
         card.onclick = () => {
             if (currentStep < draftSequence.length) {
+                // Проверяем, не занят ли герой (используем lastData)
                 const isTaken = lastData && lastData.history && 
                                 Object.values(lastData.history).some(a => a.heroId === hero.id);
                 if (isTaken) return;
@@ -94,24 +124,37 @@ if (grid) {
     });
 }
 
+// 2. Слушаем изменения (только обновляем статусы)
 onValue(ref(db, 'draft'), (snapshot) => {
     const data = snapshot.val();
     lastData = data; 
-
-    document.querySelectorAll('.hero-card').forEach(card => card.classList.remove('banned', 'picked'));
+    
+    // Сброс визуального состояния героев в сетке
+    document.querySelectorAll('.hero-card').forEach(card => {
+        card.classList.remove('banned', 'picked');
+    });
+    
+    // Очистка боковых контейнеров
     ['cap1-picks', 'cap1-bans', 'cap2-picks', 'cap2-bans'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.innerHTML = '';
     });
 
-    if (!data || !data.history) {
+    if (!data) {
         currentStep = 0;
-    } else {
-        currentStep = data.currentStep || 0;
+        updateUI();
+        return;
+    }
+
+    currentStep = data.currentStep || 0;
+
+    if (data.history) {
         Object.values(data.history).forEach(act => {
+            // Подсветка в сетке
             const el = document.getElementById(`hero-${act.heroId}`);
             if (el) el.classList.add(act.type === 'ban' ? 'banned' : 'picked');
 
+            // Мини-иконка в боковую панель
             const heroData = heroes.find(h => h.id === act.heroId);
             if (heroData) {
                 const miniIcon = document.createElement('div');
@@ -126,57 +169,23 @@ onValue(ref(db, 'draft'), (snapshot) => {
 });
 
 function updateUI() {
-    const actionEl = document.getElementById('current-action');
-    const infoEl = document.getElementById('turn-info');
-    const nextInfoEl = document.getElementById('next-turn-info');
-
+    const info = document.getElementById('turn-info');
+    const action = document.getElementById('current-action');
     if (currentStep < draftSequence.length) {
-        const current = draftSequence[currentStep];
-        const typeRu = current.type === 'ban' ? 'БАН' : 'ПИК';
-
-        if (actionEl) actionEl.innerText = "Идет выбор...";
-        if (actionEl) actionEl.innerText = "ИДЕТ ВЫБОР...";
-        
-        if (infoEl) {
-            infoEl.innerText = `Сейчас выбирает: Капитан ${current.cap} (${typeRu})`;
-            infoEl.style.color = current.type === 'ban' ? '#ff4d4d' : '#4dff4d';
-            
-            // Сбрасываем старые классы и ставим новый в зависимости от капитана
-            infoEl.classList.remove('cap1-text', 'cap2-text');
-            infoEl.classList.add(current.cap === 1 ? 'cap1-text' : 'cap2-text');
-        }
-
-        if (nextInfoEl) {
-            const next = draftSequence[currentStep + 1];
-            if (next) {
-                const nextTypeRu = next.type === 'ban' ? 'БАН' : 'ПИК';
-                nextInfoEl.innerText = `Следующий: Капитан ${next.cap} (${nextTypeRu})`;
-                
-                // Подсвечиваем и следующего игрока (по желанию, можно оставить серым)
-                nextInfoEl.classList.remove('cap1-text', 'cap2-text');
-                nextInfoEl.classList.add(next.cap === 1 ? 'cap1-text' : 'cap2-text');
-            } else {
-                nextInfoEl.innerText = "Последний выбор!";
-                nextInfoEl.innerText = "Это последний ход!";
-                nextInfoEl.className = ""; // Сброс цвета
-            }
-        }
+        const next = draftSequence[currentStep];
+        if (info) info.innerText = `Очередь: Капитан ${next.cap} (${next.type === 'ban' ? 'БАН' : 'ПИК'})`;
+        if (action) action.innerText = "Идет выбор...";
     } else {
-        if (actionEl) actionEl.innerText = "ДРАФТ ОКОНЧЕН";
-        if (infoEl) {
-            infoEl.innerText = "Все герои распределены";
-            infoEl.className = ""; 
-            infoEl.style.color = "white";
-        }
-        if (nextInfoEl) nextInfoEl.innerText = "";
+        if (info) info.innerText = "ДРАФТ ОКОНЧЕН";
+        if (action) action.innerText = "Финал";
     }
 }
 
-// Кнопка сброса
-const resetBtn = document.getElementById('reset-btn');
-if (resetBtn) {
-    resetBtn.onclick = () => {
-        if (confirm("Сбросить весь драфт?")) {
+// Сброс
+const rb = document.getElementById('reset-btn');
+if (rb) {
+    rb.onclick = () => {
+        if (confirm("Сбросить драфт?")) {
             set(ref(db, 'draft'), { currentStep: 0, history: {} });
         }
     };
