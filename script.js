@@ -134,10 +134,14 @@ function updateUI() {
         const current = draftSequence[currentStep];
         const typeRu = current.type === 'ban' ? 'БАН' : 'ПИК';
         
-        if (actionEl) actionEl.innerText = "Идет выбор...";
+        if (actionEl) actionEl.innerText = "ИДЕТ ВЫБОР...";
+        
         if (infoEl) {
             infoEl.innerText = `Сейчас выбирает: Капитан ${current.cap} (${typeRu})`;
-            infoEl.style.color = current.type === 'ban' ? '#ff4d4d' : '#4dff4d';
+            
+            // Сбрасываем старые классы и ставим новый в зависимости от капитана
+            infoEl.classList.remove('cap1-text', 'cap2-text');
+            infoEl.classList.add(current.cap === 1 ? 'cap1-text' : 'cap2-text');
         }
 
         if (nextInfoEl) {
@@ -145,26 +149,22 @@ function updateUI() {
             if (next) {
                 const nextTypeRu = next.type === 'ban' ? 'БАН' : 'ПИК';
                 nextInfoEl.innerText = `Следующий: Капитан ${next.cap} (${nextTypeRu})`;
+                
+                // Подсвечиваем и следующего игрока (по желанию, можно оставить серым)
+                nextInfoEl.classList.remove('cap1-text', 'cap2-text');
+                nextInfoEl.classList.add(next.cap === 1 ? 'cap1-text' : 'cap2-text');
             } else {
-                nextInfoEl.innerText = "Последний выбор!";
+                nextInfoEl.innerText = "Это последний ход!";
+                nextInfoEl.className = ""; // Сброс цвета
             }
         }
     } else {
         if (actionEl) actionEl.innerText = "ДРАФТ ОКОНЧЕН";
         if (infoEl) {
             infoEl.innerText = "Все герои распределены";
+            infoEl.className = ""; 
             infoEl.style.color = "white";
         }
         if (nextInfoEl) nextInfoEl.innerText = "";
     }
-}
-
-// Кнопка сброса
-const resetBtn = document.getElementById('reset-btn');
-if (resetBtn) {
-    resetBtn.onclick = () => {
-        if (confirm("Сбросить весь драфт?")) {
-            set(ref(db, 'draft'), { currentStep: 0, history: {} });
-        }
-    };
 }
