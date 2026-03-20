@@ -137,3 +137,30 @@ body {
     margin-bottom: 15px;
     color: #ffd700; /* Золотистый цвет для солидности */
 }
+
+/* --- ЦВЕТА ДЛЯ КАПИТАНОВ --- */
+
+/* Принудительный красный для Капитана 1 */
+.cap1-text {
+    color: #ff4d4d !important;
+    text-shadow: 0 0 10px rgba(255, 77, 77, 0.5) !important;
+}
+
+/* Принудительный зеленый для Капитана 2 */
+.cap2-text {
+    color: #4dff4d !important;
+    text-shadow: 0 0 10px rgba(77, 255, 77, 0.5) !important;
+}
+
+/* Делаем заголовки по бокам всегда цветными */
+#cap1-side h3 {
+    color: #ff4d4d;
+    font-size: 2rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+#cap2-side h3 {
+    color: #4dff4d;
+    font-size: 2rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
