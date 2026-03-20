@@ -92,10 +92,13 @@ const heroes = [
 ];
 
 let currentStep = 0;
-let lastData = null; // Для хранения истории и проверки занятых героев
+let lastData = null;
 
-// 1. Создаем сетку ОДИН РАЗ при загрузке
+// Элементы для тултипа (описания)
 const grid = document.getElementById('heroes-grid');
+const tooltip = document.getElementById('hero-tooltip');
+const tooltipImg = document.getElementById('tooltip-img');
+
 if (grid) {
     heroes.forEach(hero => {
         const card = document.createElement('div');
@@ -104,9 +107,25 @@ if (grid) {
         card.id = `hero-${hero.id}`;
         card.title = hero.name;
 
+        // Логика наведения мыши
+        card.onmouseenter = (e) => {
+            if (tooltipImg) tooltipImg.src = `images/desc/${hero.id}.png`;
+            if (tooltip) tooltip.style.display = 'block';
+        };
+
+        card.onmousemove = (e) => {
+            if (tooltip) {
+                tooltip.style.left = (e.clientX + 15) + 'px';
+                tooltip.style.top = (e.clientY + 15) + 'px';
+            }
+        };
+
+        card.onmouseleave = () => {
+            if (tooltip) tooltip.style.display = 'none';
+        };
+
         card.onclick = () => {
             if (currentStep < draftSequence.length) {
-                // Проверяем, не занят ли герой (используем lastData)
                 const isTaken = lastData && lastData.history && 
                                 Object.values(lastData.history).some(a => a.heroId === hero.id);
                 if (isTaken) return;
@@ -124,17 +143,14 @@ if (grid) {
     });
 }
 
-// 2. Слушаем изменения (только обновляем статусы)
 onValue(ref(db, 'draft'), (snapshot) => {
     const data = snapshot.val();
     lastData = data; 
     
-    // Сброс визуального состояния героев в сетке
     document.querySelectorAll('.hero-card').forEach(card => {
         card.classList.remove('banned', 'picked');
     });
     
-    // Очистка боковых контейнеров
     ['cap1-picks', 'cap1-bans', 'cap2-picks', 'cap2-bans'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.innerHTML = '';
@@ -150,11 +166,9 @@ onValue(ref(db, 'draft'), (snapshot) => {
 
     if (data.history) {
         Object.values(data.history).forEach(act => {
-            // Подсветка в сетке
             const el = document.getElementById(`hero-${act.heroId}`);
             if (el) el.classList.add(act.type === 'ban' ? 'banned' : 'picked');
 
-            // Мини-иконка в боковую панель
             const heroData = heroes.find(h => h.id === act.heroId);
             if (heroData) {
                 const miniIcon = document.createElement('div');
@@ -181,7 +195,6 @@ function updateUI() {
     }
 }
 
-// Сброс
 const rb = document.getElementById('reset-btn');
 if (rb) {
     rb.onclick = () => {
