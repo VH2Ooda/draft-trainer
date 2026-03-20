@@ -81,22 +81,23 @@ body {
     margin-bottom: 20px;
 }
 
-/* Контейнер для подсказки */
 .tooltip {
     position: fixed;
     display: none;
     pointer-events: none;
     z-index: 1000;
-    border: 3px solid #ffd700; /* Сделал рамку чуть толще */
+    border: 3px solid #ffd700;
     background: #1a1a1b;
-    border-radius: 12px; /* Более мягкие углы */
-    overflow: hidden;
-    box-shadow: 0 0 30px rgba(0,0,0,0.8); /* Усилил тень для объема */
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    
+    /* НОВЫЕ СТРОКИ ТУТ: */
+    max-height: 90vh; /* Максимальная высота - 90% от высоты экрана */
+    overflow-y: auto; /* Если не влезает, появится прокрутка внутри */
 }
 
-/* Сама картинка внутри подсказки */
 .tooltip img {
     display: block;
-    width: 500px; /* Увеличил ширину до 500px (можете поставить 600px, если нужно еще больше) */
-    height: auto; /* Высота подстроится автоматически, чтобы не искажать пропорции */
+    width: 500px; 
+    height: auto;
 }
