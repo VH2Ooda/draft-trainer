@@ -6,10 +6,15 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="status-bar">
-        <h2 id="current-action">Загрузка...</h2>
-        <p id="turn-info">Очередь Капитана 1</p>
-    </div>
+    <div id="status-bar" style="text-align: center; margin-bottom: 20px;">
+    <h2 id="current-action" style="margin: 5px;">Идет выбор...</h2>
+    <p id="turn-info" style="font-size: 1.2em; margin: 5px; font-weight: bold;"></p>
+    <p id="next-turn-info" style="opacity: 0.7; font-size: 0.9em; margin: 5px;"></p>
+</div>
+
+<div class="draft-container"> ... </div>
+
+<button id="reset-btn">Сбросить драфт</button>
 
     <div class="draft-container">
         <div id="cap1-side" class="side">
@@ -33,11 +38,6 @@
     
     <div id="hero-tooltip" class="tooltip">
     <img id="tooltip-img" src="" alt="Описание">
-</div>
-<div id="status-bar">
-    <h2 id="current-action">Загрузка...</h2>
-    <p id="turn-info">Очередь Капитана 1</p>
-    <p id="next-turn-info" style="opacity: 0.7; font-size: 0.9em;"></p>
 </div>
 </body>
 </html>
