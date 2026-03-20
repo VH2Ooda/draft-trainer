@@ -7,9 +7,13 @@
 </head>
 <body>
     <div id="status-bar">
-        <h2 id="current-action">Загрузка...</h2>
-        <p id="turn-info"></p>
-        <p id="next-turn-info"></p>
+        <div class="status-box">
+            <h2 id="current-action">ЗАГРУЗКА</h2>
+            <div class="info-wrapper">
+                <p id="turn-info"></p>
+                <p id="next-turn-info"></p>
+            </div>
+        </div>
     </div>
 
     <div class="draft-container">
@@ -29,9 +33,7 @@
     </div>
 
     <div style="text-align: center;">
-        <button id="reset-btn">
-            Сбросить драфт
-        </button>
+        <button id="reset-btn">Сбросить драфт</button>
     </div>
 
     <div id="hero-tooltip" class="tooltip">
