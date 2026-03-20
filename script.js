@@ -211,13 +211,39 @@ onValue(ref(db, 'draft'), (snapshot) => {
 
 function updateUI() {
     const info = document.getElementById('turn-info');
+    const nextInfo = document.getElementById('next-turn-info'); // Новый элемент
     const action = document.getElementById('current-action');
+
     if (currentStep < draftSequence.length) {
-        const next = draftSequence[currentStep];
-        if (info) info.innerText = `Очередь: Капитан ${next.cap} (${next.type === 'ban' ? 'БАН' : 'ПИК'})`;
+        const current = draftSequence[currentStep];
+        
+        // 1. Показываем текущий ход
+        if (info) {
+            const typeRu = current.type === 'ban' ? 'БАН' : 'ПИК';
+            info.innerText = `Сейчас выбирает: Капитан ${current.cap} (${typeRu})`;
+            // Можно добавить цвет текста для акцента
+            info.style.color = current.type === 'ban' ? '#ff4d4d' : '#4dff4d';
+        }
+
+        // 2. Логика для СЛЕДУЮЩЕГО хода
+        if (nextInfo) {
+            if (currentStep + 1 < draftSequence.length) {
+                const next = draftSequence[currentStep + 1];
+                const nextTypeRu = next.type === 'ban' ? 'БАН' : 'ПИК';
+                nextInfo.innerText = `Следующий: Капитан ${next.cap} (${nextTypeRu})`;
+            } else {
+                nextInfo.innerText = "Это последний выбор!";
+            }
+        }
+
         if (action) action.innerText = "Идет выбор...";
     } else {
-        if (info) info.innerText = "ДРАФТ ОКОНЧЕН";
+        // Конец драфта
+        if (info) {
+            info.innerText = "ДРАФТ ОКОНЧЕН";
+            info.style.color = "white";
+        }
+        if (nextInfo) nextInfo.innerText = "";
         if (action) action.innerText = "Финал";
     }
 }
