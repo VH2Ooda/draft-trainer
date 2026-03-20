@@ -80,3 +80,21 @@ body {
     min-height: 60px;
     margin-bottom: 20px;
 }
+
+.tooltip {
+    position: fixed; /* Чтобы летала по экрану */
+    display: none;   /* Скрыта по умолчанию */
+    pointer-events: none; /* Чтобы мышка не "цеплялась" за саму подсказку */
+    z-index: 1000;
+    border: 2px solid #ffd700;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+.tooltip img {
+    display: block;
+    max-width: 300px; /* Ширина картинки с описанием */
+    height: auto;
+}
