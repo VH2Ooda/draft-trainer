@@ -115,20 +115,31 @@ if (grid) {
 
         card.onmousemove = (e) => {
             if (tooltip) {
-                const tooltipWidth = tooltip.offsetWidth;
-                const tooltipHeight = tooltip.offsetHeight;
-                const gap = 15; // Отступ от курсора
+                const gap = 20; // Отступ по горизонтали
+                const tWidth = tooltip.offsetWidth;
+                const tHeight = tooltip.offsetHeight;
 
-                // Проверяем правую границу экрана
+                // 1. Центрируем по вертикали относительно курсора
+                let top = e.clientY - (tHeight / 2); 
+                
+                // 2. Позиция по горизонтали (справа от курсора)
                 let left = e.clientX + gap;
-                if (left + tooltipWidth > window.innerWidth) {
-                    left = e.clientX - tooltipWidth - gap;
+
+                // --- ПРОВЕРКИ ГРАНИЦ ---
+
+                // Если уходит за ПРАВЫЙ край — перекидываем влево
+                if (left + tWidth > window.innerWidth) {
+                    left = e.clientX - tWidth - gap;
                 }
 
-                // Проверяем нижнюю границу экрана (ВАШ СЛУЧАЙ)
-                let top = e.clientY + gap;
-                if (top + tooltipHeight > window.innerHeight) {
-                    top = e.clientY - tooltipHeight - gap;
+                // Если уходит за НИЖНИЙ край — прижимаем к низу
+                if (top + tHeight > window.innerHeight) {
+                    top = window.innerHeight - tHeight - 10;
+                }
+
+                // Если уходит за ВЕРХНИЙ край — прижимаем к верху
+                if (top < 10) {
+                    top = 10;
                 }
 
                 tooltip.style.left = left + 'px';
