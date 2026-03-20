@@ -99,3 +99,41 @@ body {
     width: 500px;
     height: auto;
 }
+
+/* Основной контейнер статус-бара */
+#status-bar {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+}
+
+/* "Идет выбор..." или "ДРАФТ ОКОНЧЕН" */
+#current-action {
+    font-size: 3rem; /* Очень большой размер */
+    margin: 10px 0;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+/* "Сейчас выбирает: Капитан X (ПИК/БАН)" */
+#turn-info {
+    font-size: 2rem; /* Крупный и четкий текст */
+    font-weight: 800;
+    margin: 10px 0;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* "Следующий: Капитан Y" */
+#next-turn-info {
+    font-size: 1.4rem; /* Пометнее, чем было */
+    opacity: 0.8;
+    color: #ccc;
+    margin-top: 10px;
+}
+
+/* Стили заголовков Капитанов по бокам */
+.side h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #ffd700; /* Золотистый цвет для солидности */
+}
