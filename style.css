@@ -17,6 +17,7 @@ body {
 
 .grid {
     display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6 персонажей в ряд */
     grid-template-columns: repeat(6, 1fr);
     gap: 10px;
     padding: 20px;
@@ -50,90 +51,77 @@ body {
 }
 
 .side {
+    width: 250px; /* Было 200px */
     width: 250px;
     text-align: center;
 }
 
+/* Мини-карточки в боковых панелях (теперь крупнее) */
 .mini-card {
+    width: 70px;  /* Было 50px */
+    height: 70px; /* Было 50px */
     width: 70px;
     height: 70px;
     background-size: cover;
     margin: 5px;
     border: 2px solid white;
     display: inline-block;
+    border-radius: 4px; /* Можно добавить немного скругления для красоты */
     border-radius: 4px;
 }
 
 .mini-card.ban {
+    border-color: #ff4d4d; /* Красный для банов */
     border-color: #ff4d4d;
     filter: grayscale(100%);
     opacity: 0.6;
 }
 
 .mini-card.pick {
+    border-color: #4dff4d; /* Зеленый для пиков */
     border-color: #4dff4d;
 }
 
 .picks, .bans {
-    display: flex;
-    flex-wrap: wrap;
-    min-height: 60px;
+@@ -81,35 +81,21 @@
     margin-bottom: 20px;
 }
 
+
+.tooltip {
+    position: fixed; /* Чтобы летала по экрану */
+    display: none;   /* Скрыта по умолчанию */
+    pointer-events: none; /* Чтобы мышка не "цеплялась" за саму подсказку */
+    z-index: 1000;
+    border: 2px solid #ffd700;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+/* Контейнер для подсказки */
 /* Тултип (Всплывающее описание) */
 .tooltip {
     position: fixed;
     display: none;
     pointer-events: none;
     z-index: 1000;
+    border: 3px solid #ffd700; /* Сделал рамку чуть толще */
     border: 3px solid #ffd700;
     background: #1a1a1b;
+    border-radius: 12px; /* Более мягкие углы */
     border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8); /* Усилил тень для объема */
     box-shadow: 0 0 30px rgba(0,0,0,0.8);
 }
 
+/* Сама картинка внутри подсказки */
 .tooltip img {
     display: block;
+    width: 500px; /* Увеличил ширину до 500px (можете поставить 600px, если нужно еще больше) */
+    height: auto; /* Высота подстроится автоматически, чтобы не искажать пропорции */
     width: 500px;
     height: auto;
-}
-
-/* Основной контейнер статус-бара */
-#status-bar {
-    text-align: center;
-    margin-bottom: 30px;
-    padding: 20px;
-}
-
-/* "Идет выбор..." или "ДРАФТ ОКОНЧЕН" */
-#current-action {
-    font-size: 3rem; /* Очень большой размер */
-    margin: 10px 0;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-}
-
-/* "Сейчас выбирает: Капитан X (ПИК/БАН)" */
-#turn-info {
-    font-size: 2rem; /* Крупный и четкий текст */
-    font-weight: 800;
-    margin: 10px 0;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-}
-
-/* "Следующий: Капитан Y" */
-#next-turn-info {
-    font-size: 1.4rem; /* Пометнее, чем было */
-    opacity: 0.8;
-    color: #ccc;
-    margin-top: 10px;
-}
-
-/* Стили заголовков Капитанов по бокам */
-.side h3 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-    color: #ffd700; /* Золотистый цвет для солидности */
 }
