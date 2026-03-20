@@ -1,80 +1,32 @@
 body {
     background-color: #1a1a1b;
     color: white;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0;
-    padding: 20px;
 }
 
-/* Компактный статус-бар */
-#status-bar {
-    margin-bottom: 20px;
-}
-
-.status-box {
-    background: rgba(0, 0, 0, 0.7);
-    padding: 12px 40px;
-    border-radius: 10px;
-    border: 1px solid #444;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-}
-
-#current-action {
-    font-size: 1.4rem;
-    margin: 0;
-    letter-spacing: 2px;
-    border-bottom: 1px solid #333;
-    padding-bottom: 5px;
-    color: #eee;
-}
-
-.info-wrapper {
-    margin-top: 8px;
-}
-
-#turn-info {
-    font-size: 1.1rem;
-    margin: 0;
-    font-weight: bold;
-}
-
-#next-turn-info {
-    font-size: 0.8rem;
-    margin: 4px 0 0 0;
-    opacity: 0.6;
-}
-
-/* Цвета капитанов */
-.cap1-text { color: #ff4d4d !important; text-shadow: 0 0 8px rgba(255, 77, 77, 0.4); }
-.cap2-text { color: #4dff4d !important; text-shadow: 0 0 8px rgba(77, 255, 77, 0.4); }
-
-#cap1-side h3 { color: #ff4d4d; font-size: 1.6rem; margin-bottom: 10px; }
-#cap2-side h3 { color: #4dff4d; font-size: 1.6rem; margin-bottom: 10px; }
-
-/* Сетка героев */
 .draft-container {
     display: flex;
     justify-content: space-around;
-    width: 100%;
     align-items: flex-start;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 8px;
+    gap: 10px;
+    padding: 20px;
     background: #2b2b2c;
-    padding: 15px;
     border-radius: 10px;
 }
 
 .hero-card {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     border: 2px solid #444;
     cursor: pointer;
     transition: 0.2s;
@@ -82,65 +34,106 @@ body {
 }
 
 .hero-card:hover {
-    border-color: #fff;
-    transform: scale(1.05);
+    border-color: #00ff00;
+    transform: scale(1.1);
 }
 
 .hero-card.banned {
-    filter: grayscale(1) brightness(0.4);
-    border-color: #ff4d4d;
+    filter: grayscale(1) brightness(0.5);
+    border-color: red;
     pointer-events: none;
 }
 
 .hero-card.picked {
-    border-color: #4dff4d;
+    border-color: #00acee;
     pointer-events: none;
 }
 
-/* Боковые панели */
-.side { width: 220px; text-align: center; }
-
-.mini-card {
-    width: 60px;
-    height: 60px;
-    background-size: cover;
-    margin: 4px;
-    border: 1px solid #fff;
-    display: inline-block;
+.side {
+    width: 250px;
+    text-align: center;
 }
 
-.mini-card.ban { border-color: #ff4d4d; opacity: 0.6; filter: grayscale(1); }
-.mini-card.pick { border-color: #4dff4d; }
+.mini-card {
+    width: 70px;
+    height: 70px;
+    background-size: cover;
+    margin: 5px;
+    border: 2px solid white;
+    display: inline-block;
+    border-radius: 4px;
+}
+
+.mini-card.ban {
+    border-color: #ff4d4d;
+    filter: grayscale(100%);
+    opacity: 0.6;
+}
+
+.mini-card.pick {
+    border-color: #4dff4d;
+}
 
 .picks, .bans {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    min-height: 65px;
+    min-height: 60px;
+    margin-bottom: 20px;
 }
 
-/* Тултип */
+/* Тултип (Всплывающее описание) */
 .tooltip {
     position: fixed;
     display: none;
     pointer-events: none;
     z-index: 1000;
-    border: 2px solid #ffd700;
-    background: #000;
-    border-radius: 8px;
+    border: 3px solid #ffd700;
+    background: #1a1a1b;
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
 }
 
-.tooltip img { display: block; width: 450px; height: auto; }
-
-#reset-btn {
-    margin: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
-    background: #333;
-    color: white;
-    border: 1px solid #555;
-    border-radius: 5px;
+.tooltip img {
+    display: block;
+    width: 500px;
+    height: auto;
 }
 
-#reset-btn:hover { background: #444; }
+/* Основной контейнер статус-бара */
+#status-bar {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+}
+
+/* "Идет выбор..." или "ДРАФТ ОКОНЧЕН" */
+#current-action {
+    font-size: 3rem; /* Очень большой размер */
+    margin: 10px 0;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+/* "Сейчас выбирает: Капитан X (ПИК/БАН)" */
+#turn-info {
+    font-size: 2rem; /* Крупный и четкий текст */
+    font-weight: 800;
+    margin: 10px 0;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* "Следующий: Капитан Y" */
+#next-turn-info {
+    font-size: 1.4rem; /* Пометнее, чем было */
+    opacity: 0.8;
+    color: #ccc;
+    margin-top: 10px;
+}
+
+/* Стили заголовков Капитанов по бокам */
+.side h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #ffd700; /* Золотистый цвет для солидности */
+}
