@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCmaS0aFRmkXQPR_vnxDipo_OyKHirKXE4",
@@ -31,7 +31,6 @@ const draftSequence = [
 
 const heroes = Array.from({ length: 59 }, (_, i) => ({
     id: (i + 1).toString(),
-    name: '', 
     img: `images/${i + 1}.png`
 }));
 
@@ -57,28 +56,19 @@ if (grid) {
         card.onmousemove = (e) => {
             if (tooltip) {
                 const gap = 20;
-                const tWidth = tooltip.offsetWidth;
-                const tHeight = tooltip.offsetHeight;
-                let top = e.clientY - (tHeight / 2); 
+                let top = e.clientY - (tooltip.offsetHeight / 2); 
                 let left = e.clientX + gap;
-
-                if (left + tWidth > window.innerWidth) left = e.clientX - tWidth - gap;
-                if (top + tHeight > window.innerHeight) top = window.innerHeight - tHeight - 10;
-                if (top < 10) top = 10;
-
+                if (left + tooltip.offsetWidth > window.innerWidth) left = e.clientX - tooltip.offsetWidth - gap;
                 tooltip.style.left = left + 'px';
                 tooltip.style.top = top + 'px';
             }
         };
 
-        card.onmouseleave = () => {
-            if (tooltip) tooltip.style.display = 'none';
-        };
+        card.onmouseleave = () => { if (tooltip) tooltip.style.display = 'none'; };
 
         card.onclick = () => {
             if (currentStep < draftSequence.length) {
-                const isTaken = lastData && lastData.history && 
-                                Object.values(lastData.history).some(a => a.heroId === hero.id);
+                const isTaken = lastData && lastData.history && Object.values(lastData.history).some(a => a.heroId === hero.id);
                 if (isTaken) return;
 
                 const step = draftSequence[currentStep];
@@ -93,6 +83,11 @@ if (grid) {
         grid.appendChild(card);
     });
 }
+
+// Кнопка сброса
+document.getElementById('reset-btn').onclick = () => {
+    remove(ref(db, 'draft'));
+};
 
 onValue(ref(db, 'draft'), (snapshot) => {
     const data = snapshot.val();
@@ -134,12 +129,10 @@ function updateUI() {
         const current = draftSequence[currentStep];
         const typeRu = current.type === 'ban' ? 'БАН' : 'ПИК';
         
-        if (actionEl) actionEl.innerText = "ИДЕТ ВЫБОР...";
+        if (actionEl) actionEl.innerText = "ИДЕТ ВЫБОР";
         
         if (infoEl) {
-            infoEl.innerText = `Сейчас выбирает: Капитан ${current.cap} (${typeRu})`;
-            
-            // Сбрасываем старые классы и ставим новый в зависимости от капитана
+            infoEl.innerText = `Капитан ${current.cap} (${typeRu})`;
             infoEl.classList.remove('cap1-text', 'cap2-text');
             infoEl.classList.add(current.cap === 1 ? 'cap1-text' : 'cap2-text');
         }
@@ -148,22 +141,16 @@ function updateUI() {
             const next = draftSequence[currentStep + 1];
             if (next) {
                 const nextTypeRu = next.type === 'ban' ? 'БАН' : 'ПИК';
-                nextInfoEl.innerText = `Следующий: Капитан ${next.cap} (${nextTypeRu})`;
-                
-                // Подсвечиваем и следующего игрока (по желанию, можно оставить серым)
-                nextInfoEl.classList.remove('cap1-text', 'cap2-text');
-                nextInfoEl.classList.add(next.cap === 1 ? 'cap1-text' : 'cap2-text');
+                nextInfoEl.innerText = `Далее: Капитан ${next.cap} (${nextTypeRu})`;
             } else {
-                nextInfoEl.innerText = "Это последний ход!";
-                nextInfoEl.className = ""; // Сброс цвета
+                nextInfoEl.innerText = "Последний ход!";
             }
         }
     } else {
-        if (actionEl) actionEl.innerText = "ДРАФТ ОКОНЧЕН";
+        if (actionEl) actionEl.innerText = "ЗАВЕРШЕНО";
         if (infoEl) {
-            infoEl.innerText = "Все герои распределены";
+            infoEl.innerText = "Герои распределены";
             infoEl.className = ""; 
-            infoEl.style.color = "white";
         }
         if (nextInfoEl) nextInfoEl.innerText = "";
     }
