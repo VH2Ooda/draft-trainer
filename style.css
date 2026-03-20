@@ -10,7 +10,7 @@ body {
 .draft-container {
     display: flex;
     justify-content: space-around;
-    align-items: flex-start;
+    align-items: center; /* <-- ключевое изменение */
     width: 100%;
     margin-top: 20px;
 }
