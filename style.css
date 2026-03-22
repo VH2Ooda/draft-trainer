@@ -112,12 +112,15 @@ body {
 
 /* "ИДЕТ ВЫБОР..." */
 #current-action {
-    font-size: 25px; 
-    font-weight: 700;
+    font-size: 28px; 
+    font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 3px;
-    margin: 0; 
-    line-height: 1.1;
+    margin: 0;           /* Убираем внешние отступы */
+    padding: 0;          /* Убираем внутренние отступы */
+    line-height: 1;      /* Схлопываем высоту строки */
+    color: #fff;
+    text-shadow: none;   /* УДАЛЯЕМ СВЕЧЕНИЕ */
 }
 
 /* "Очередь: Капитан..." */
