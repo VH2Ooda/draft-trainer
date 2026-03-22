@@ -122,7 +122,7 @@ body {
 
 /* "Очередь: Капитан..." */
 .turn-main {
-    font-size: 24px; /* Уменьшил с 32px */
+    font-size: 29px; /* Уменьшил с 32px */
     font-weight: 700;
     margin: 2px 0; /* Минимальный зазор между строками */
     text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
@@ -130,7 +130,7 @@ body {
 
 /* "ДАЛЕЕ: ..." */
 .turn-next {
-    font-size: 14px; /* Уменьшил с 18px */
+    font-size: 20px; /* Уменьшил с 18px */
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 1px;
