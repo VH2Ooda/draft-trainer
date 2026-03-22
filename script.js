@@ -242,7 +242,7 @@ function updateUI() {
         } else {
             html += `<div class="turn-next" style="color: gold;">Финальный ход!</div>`;
         }
-
+}
         info.innerHTML = html;
         action.innerText = "Идет выбор...";
     } else {
