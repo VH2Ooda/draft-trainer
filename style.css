@@ -104,9 +104,10 @@ body {
 
 #status-bar {
     text-align: center;
-    padding: 30px 10px;
+    padding: 5px 0; /* Минимальный отступ сверху и снизу */
     background: linear-gradient(180deg, rgba(40,40,40,0.8) 0%, rgba(20,20,20,0) 100%);
-    min-height: 50px;
+    min-height: auto; /* Убираем фиксированную высоту */
+    margin-bottom: 0px; /* Убираем отступ до сетки */
 }
 
 /* "ИДЕТ ВЫБОР..." */
