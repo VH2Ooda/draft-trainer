@@ -247,8 +247,6 @@ function updateUI() {
         action.innerText = "Идет выбор...";
     } else {
         action.innerText = "ДРАФТ ЗАВЕРШЕН";
-        info.innerHTML = "<div class='turn-main' style='color: #4dff4d;'>УДАЧИ В ИГРЕ!</div>";
-    }
 }
 
 const rb = document.getElementById('reset-btn');
