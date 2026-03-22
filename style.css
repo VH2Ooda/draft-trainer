@@ -101,3 +101,18 @@ body {
     width: 500px; 
     height: auto;
 }
+
+#status-bar {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.4); /* Темная подложка для читаемости */
+    border-radius: 15px;
+    margin-bottom: 20px;
+    min-width: 400px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Тень для текста */
+}
+
+#current-action {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ffd700; /* Золотой цвет для главного статуса */
