@@ -249,15 +249,6 @@ function updateUI() {
     }
 }
 
-// Кнопка сброса (убедись, что она в самом низу файла)
-const rb = document.getElementById('reset-btn');
-if (rb) {
-    rb.onclick = () => {
-        if (confirm("Сбросить драфт?")) {
-            set(ref(db, 'draft'), { currentStep: 0, history: {} });
-        }
-    };
-}
 
 const rb = document.getElementById('reset-btn');
 if (rb) {
