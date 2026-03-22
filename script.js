@@ -1,3 +1,20 @@
+let myRole = localStorage.getItem('myRole'); // Проверяем, выбрана ли роль ранее
+
+// Если роль уже есть, скрываем окно выбора сразу
+window.onload = () => {
+    if (myRole) {
+        document.getElementById('role-selection').style.display = 'none';
+    }
+};
+
+// Функция выбора роли
+window.selectRole = function(role) {
+    myRole = role;
+    localStorage.setItem('myRole', role); // Запоминаем выбор
+    document.getElementById('role-selection').style.display = 'none';
+    alert(`Вы выбрали роль Капитана ${role}. Теперь вы можете нажимать только в свой ход.`);
+};
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
