@@ -178,7 +178,6 @@ body {
 }
 
 #role-selection h1 { color: white; margin-bottom: 20px; text-shadow: none; }
-#role-selection p { color: #888; margin-top: 15px; }
 
 .btn-cap1 { background: #4dff4d; color: black; padding: 20px 40px; font-size: 20px; border: none; cursor: pointer; margin: 10px; font-weight: bold; }
 .btn-cap2 { background: #ff4d4d; color: white; padding: 20px 40px; font-size: 20px; border: none; cursor: pointer; margin: 10px; font-weight: bold; }
