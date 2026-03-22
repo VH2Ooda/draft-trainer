@@ -6,11 +6,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="role-selection" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-    <h1 style="color: white; margin-bottom: 30px;">Выберите вашу роль</h1>
-    <div>
-        <button onclick="selectRole(1)" style="padding: 20px 40px; font-size: 20px; cursor: pointer; margin: 10px; background: #4dff4d; border: none; font-weight: bold;">Я Капитан 1</button>
-        <button onclick="selectRole(2)" style="padding: 20px 40px; font-size: 20px; cursor: pointer; margin: 10px; background: #ff4d4d; border: none; font-weight: bold; color: white;">Я Капитан 2</button>
     <div id="role-selection">
         <h1>Выберите вашу роль</h1>
         <div class="role-buttons">
@@ -19,13 +14,8 @@
         </div>
         <p>Это нужно, чтобы вы не могли случайно нажать за противника.</p>
     </div>
-    <p style="color: #888; margin-top: 20px;">Это нужно, чтобы вы не могли случайно нажать за противника.</p>
-</div>
-
+    
     <div id="status-bar">
-    <div id="current-action">Загрузка...</div>
-    <div id="turn-info">Очередь Капитана 1</div>
-</div>
         <div id="current-action">Загрузка...</div>
         <div id="turn-info">Очередь Капитана 1</div>
     </div>
@@ -37,8 +27,6 @@
             <div id="cap1-bans" class="bans"></div>
         </div>
 
-        <div id="heroes-grid" class="grid">
-            </div>
         <div id="heroes-grid" class="grid"></div>
 
         <div id="cap2-side" class="side">
@@ -48,18 +36,14 @@
         </div>
     </div>
 
-    <button id="reset-btn" style="margin: 10px; padding: 10px; cursor: pointer;">Сбросить драфт</button>
     <div class="controls-container">
         <button id="reset-btn">Сбросить драфт</button>
         <button id="change-role-btn" onclick="localStorage.removeItem('myRole'); location.reload();">Сменить роль</button>
     </div>
 
     <script type="module" src="script.js"></script>
-
+    
     <div id="hero-tooltip" class="tooltip">
-    <img id="tooltip-img" src="" alt="Описание">
-</div>
-    <button onclick="localStorage.removeItem('myRole'); location.reload();" style="margin: 10px; padding: 10px; cursor: pointer;">Сменить роль</button>
         <img id="tooltip-img" src="" alt="Описание">
     </div>
 </body>
