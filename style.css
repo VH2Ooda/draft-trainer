@@ -111,33 +111,34 @@ body {
 }
 
 /* "ИДЕТ ВЫБОР..." */
+/* "ИДЕТ ВЫБОР..." */
 #current-action {
-    font-size: 30px; /* Размер заголовка */
+    font-size: 28px; /* Чуть уменьшил для компактности */
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 5px; /* Расстояние между буквами */
-    margin: 0 0 10px 0;
-    color: #fff;
+    letter-spacing: 3px;
+    margin: 0; /* Убираем все отступы */
+    line-height: 1.1;
 }
 
 /* "Очередь: Капитан..." */
 .turn-main {
-    font-size: 32px; /* Размер основной строки */
+    font-size: 24px; /* Уменьшил с 32px */
     font-weight: 700;
-    margin-bottom: 5px;
+    margin: 2px 0; /* Минимальный зазор между строками */
     text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
 }
 
 /* "ДАЛЕЕ: ..." */
 .turn-next {
-    font-size: 18px; /* Размер строки "Далее" */
+    font-size: 14px; /* Уменьшил с 18px */
     font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     color: #aaaaaa;
     opacity: 0.8;
+    margin: 0;
 }
-
 /* Цвета для типов действий */
 .type-ban { color: #ff4d4d; text-shadow: 0 0 10px rgba(255, 77, 77, 0.5); }
 .type-pick { color: #4dff4d; text-shadow: 0 0 10px rgba(77, 255, 77, 0.5); }
