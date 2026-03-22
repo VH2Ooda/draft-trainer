@@ -212,9 +212,23 @@ onValue(ref(db, 'draft'), (snapshot) => {
 function updateUI() {
     const info = document.getElementById('turn-info');
     const action = document.getElementById('current-action');
+    
     if (currentStep < draftSequence.length) {
         const next = draftSequence[currentStep];
-        if (info) info.innerText = `Очередь: Капитан ${next.cap} (${next.type === 'ban' ? 'БАН' : 'ПИК'})`;
+        
+        // 1. Формируем строку текущего хода
+        let statusText = `Очередь: Капитан ${next.cap} (${next.type === 'ban' ? 'БАН' : 'ПИК'})`;
+        
+        // 2. Логика для "Следующего хода"
+        if (currentStep + 1 < draftSequence.length) {
+            const future = draftSequence[currentStep + 1];
+            const futureType = future.type === 'ban' ? 'БАН' : 'ПИК';
+            statusText += ` <br> <span style="font-size: 0.8em; color: #aaa;">Далее: Капитан ${future.cap} (${futureType})</span>`;
+        } else {
+            statusText += ` <br> <span style="font-size: 0.8em; color: #aaa;">Это последний ход</span>`;
+        }
+
+        if (info) info.innerHTML = statusText; // Используем innerHTML, чтобы работал <br>
         if (action) action.innerText = "Идет выбор...";
     } else {
         if (info) info.innerText = "ДРАФТ ОКОНЧЕН";
