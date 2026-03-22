@@ -241,8 +241,12 @@ function updateUI() {
             `;
         } else {
             html += `<div class="turn-next" style="color: gold;">Финальный ход!</div>`;
-        }
+        } else {
+        action.innerText = "ДРАФТ ЗАВЕРШЕН";
+        info.innerHTML = "<div class='turn-main' style='color: #4dff4d;'>УДАЧИ В ИГРЕ!</div>";
+    }
 }
+
         info.innerHTML = html;
         action.innerText = "Идет выбор...";
     } else {
