@@ -6,6 +6,15 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="role-selection" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <h1 style="color: white; margin-bottom: 30px;">Выберите вашу роль</h1>
+    <div>
+        <button onclick="selectRole(1)" style="padding: 20px 40px; font-size: 20px; cursor: pointer; margin: 10px; background: #4dff4d; border: none; font-weight: bold;">Я Капитан 1</button>
+        <button onclick="selectRole(2)" style="padding: 20px 40px; font-size: 20px; cursor: pointer; margin: 10px; background: #ff4d4d; border: none; font-weight: bold; color: white;">Я Капитан 2</button>
+    </div>
+    <p style="color: #888; margin-top: 20px;">Это нужно, чтобы вы не могли случайно нажать за противника.</p>
+</div>
+    
     <div id="status-bar">
     <div id="current-action">Загрузка...</div>
     <div id="turn-info">Очередь Капитана 1</div>
