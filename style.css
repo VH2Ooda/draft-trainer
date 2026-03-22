@@ -139,5 +139,5 @@ body {
     margin: 0;
 }
 /* Цвета для типов действий */
-.type-ban { color: #ff4d4d; text-shadow: 0 0 10px rgba(255, 77, 77, 0.5); }
-.type-pick { color: #4dff4d; text-shadow: 0 0 10px rgba(77, 255, 77, 0.5); }
+.type-ban { color: #ff4d4d;}
+.type-pick { color: #4dff4d}
