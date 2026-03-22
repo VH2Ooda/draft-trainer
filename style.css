@@ -103,17 +103,41 @@ body {
 }
 
 #status-bar {
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.4); /* Темная подложка для читаемости */
-    border-radius: 15px;
-    margin-bottom: 20px;
-    min-width: 400px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Тень для текста */
+    text-align: center;
+    padding: 30px 10px;
+    background: linear-gradient(180deg, rgba(40,40,40,0.8) 0%, rgba(20,20,20,0) 100%);
+    min-height: 150px;
 }
 
+/* "ИДЕТ ВЫБОР..." */
 #current-action {
-    margin: 0;
+    font-size: 42px; /* Размер заголовка */
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 5px; /* Расстояние между буквами */
+    margin: 0 0 10px 0;
+    color: #fff;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.4); /* Свечение */
+}
+
+/* "Очередь: Капитан..." */
+.turn-main {
+    font-size: 32px; /* Размер основной строки */
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+}
+
+/* "ДАЛЕЕ: ..." */
+.turn-next {
+    font-size: 18px; /* Размер строки "Далее" */
+    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: #ffd700; /* Золотой цвет для главного статуса */
+    color: #aaaaaa;
+    opacity: 0.8;
 }
+
+/* Цвета для типов действий */
+.type-ban { color: #ff4d4d; text-shadow: 0 0 10px rgba(255, 77, 77, 0.5); }
+.type-pick { color: #4dff4d; text-shadow: 0 0 10px rgba(77, 255, 77, 0.5); }
