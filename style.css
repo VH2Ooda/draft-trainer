@@ -106,7 +106,7 @@ body {
     text-align: center;
     padding: 30px 10px;
     background: linear-gradient(180deg, rgba(40,40,40,0.8) 0%, rgba(20,20,20,0) 100%);
-    min-height: 150px;
+    min-height: 100px;
 }
 
 /* "ИДЕТ ВЫБОР..." */
