@@ -1,19 +1,22 @@
-let myRole = localStorage.getItem('myRole'); // Проверяем, выбрана ли роль ранее
+// Глобальная переменная для роли
+let myRole = localStorage.getItem('myRole');
 
-// Если роль уже есть, скрываем окно выбора сразу
-window.onload = () => {
-    if (myRole) {
-        document.getElementById('role-selection').style.display = 'none';
-    }
-};
-
-// Функция выбора роли
+// Функция выбора, доступная для HTML
 window.selectRole = function(role) {
-    myRole = role;
-    localStorage.setItem('myRole', role); // Запоминаем выбор
-    document.getElementById('role-selection').style.display = 'none';
-    alert(`Вы выбрали роль Капитана ${role}. Теперь вы можете нажимать только в свой ход.`);
+    myRole = role.toString(); // Сохраняем как строку для надежности
+    localStorage.setItem('myRole', myRole);
+    const overlay = document.getElementById('role-selection');
+    if (overlay) overlay.style.display = 'none';
+    console.log("Выбрана роль капитана:", myRole);
 };
+
+// Проверка при загрузке: если роль уже есть в памяти, скрываем окно
+document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('role-selection');
+    if (myRole && overlay) {
+        overlay.style.display = 'none';
+    }
+});
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
