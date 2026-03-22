@@ -171,35 +171,24 @@ if (grid) {
             if (tooltip) tooltip.style.display = 'none';
         };
 
-      card.onclick = () => {
-    if (currentStep < draftSequence.length) {
-        const step = draftSequence[currentStep];
+      card.onmouseleave = () => { if (tooltip) tooltip.style.display = 'none'; };
 
-        // Если роль еще не выбрана (на всякий случай)
-        if (!myRole) {
-            alert("Сначала выберите свою роль!");
-            return;
-        }
+        card.onclick = () => {
+            if (currentStep < draftSequence.length) {
+                const step = draftSequence[currentStep];
+                if (!myRole) return alert("Сначала выберите роль!");
+                if (myRole !== step.cap.toString()) return alert(`Сейчас ход Капитана ${step.cap}!`);
 
-        // Проверяем: совпадает ли ваша роль с номером текущего капитана
-        if (myRole !== step.cap.toString()) {
-            alert(`Сейчас очередь Капитана ${step.cap}. Вы выбрали роль Капитана ${myRole}, подождите своего хода.`);
-            return;
-        }
+                const isTaken = lastData?.history && Object.values(lastData.history).some(a => a.heroId === hero.id);
+                if (isTaken) return;
 
-        const isTaken = lastData && lastData.history && 
-                        Object.values(lastData.history).some(a => a.heroId === hero.id);
-        if (isTaken) return;
-
-        // Если проверки прошли — отправляем данные в базу
-        set(ref(db, 'draft/history/' + currentStep), {
-            heroId: hero.id,
-            cap: step.cap,
-            type: step.type
-        });
-        set(ref(db, 'draft/currentStep'), currentStep + 1);
-    }
-};
+                set(ref(db, 'draft/history/' + currentStep), { heroId: hero.id, cap: step.cap, type: step.type });
+                set(ref(db, 'draft/currentStep'), currentStep + 1);
+            }
+        };
+        grid.appendChild(card);
+    });
+}
 
 onValue(ref(db, 'draft'), (snapshot) => {
     const data = snapshot.val();
