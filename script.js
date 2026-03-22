@@ -168,24 +168,29 @@ if (grid) {
             if (tooltip) tooltip.style.display = 'none';
         };
 
-        card.onclick = () => {
-            if (currentStep < draftSequence.length) {
-                const isTaken = lastData && lastData.history && 
-                                Object.values(lastData.history).some(a => a.heroId === hero.id);
-                if (isTaken) return;
+      card.onclick = () => {
+    if (currentStep < draftSequence.length) {
+        const step = draftSequence[currentStep];
 
-                const step = draftSequence[currentStep];
-                set(ref(db, 'draft/history/' + currentStep), {
-                    heroId: hero.id,
-                    cap: step.cap,
-                    type: step.type
-                });
-                set(ref(db, 'draft/currentStep'), currentStep + 1);
-            }
-        };
-        grid.appendChild(card);
-    });
-}
+        // --- НОВАЯ ПРОВЕРКА РОЛИ ---
+        if (parseInt(myRole) !== step.cap) {
+            alert(`Сейчас ход Капитана ${step.cap}! Вы не можете нажать.`);
+            return;
+        }
+        // ---------------------------
+
+        const isTaken = lastData && lastData.history && 
+                        Object.values(lastData.history).some(a => a.heroId === hero.id);
+        if (isTaken) return;
+
+        set(ref(db, 'draft/history/' + currentStep), {
+            heroId: hero.id,
+            cap: step.cap,
+            type: step.type
+        });
+        set(ref(db, 'draft/currentStep'), currentStep + 1);
+    }
+};
 
 onValue(ref(db, 'draft'), (snapshot) => {
     const data = snapshot.val();
