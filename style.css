@@ -111,13 +111,12 @@ body {
 
 /* "ИДЕТ ВЫБОР..." */
 #current-action {
-    font-size: 42px; /* Размер заголовка */
+    font-size: 30px; /* Размер заголовка */
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 5px; /* Расстояние между буквами */
     margin: 0 0 10px 0;
     color: #fff;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.4); /* Свечение */
 }
 
 /* "Очередь: Капитан..." */
