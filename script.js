@@ -215,23 +215,41 @@ function updateUI() {
     
     if (currentStep < draftSequence.length) {
         const next = draftSequence[currentStep];
+        const isBan = next.type === 'ban';
         
-        // 1. Формируем строку текущего хода
-        let statusText = `Очередь: Капитан ${next.cap} (${next.type === 'ban' ? 'БАН' : 'ПИК'})`;
+        // Основной текст (Текущий ход)
+        // Добавляем цвет: красный для бана, голубой для пика
+        const mainColor = isBan ? '#ff4d4d' : '#4dff4d';
+        const typeText = isBan ? 'БАН' : 'ПИК';
+
+        let statusHTML = `
+            <div style="font-size: 24px; font-weight: bold; margin-bottom: 5px;">
+                Очередь: <span style="color: white;">Капитан ${next.cap}</span> 
+                (<span style="color: ${mainColor};">${typeText}</span>)
+            </div>
+        `;
         
-        // 2. Логика для "Следующего хода"
+        // Текст следующего хода
         if (currentStep + 1 < draftSequence.length) {
             const future = draftSequence[currentStep + 1];
-            const futureType = future.type === 'ban' ? 'БАН' : 'ПИК';
-            statusText += ` <br> <span style="font-size: 0.8em; color: #aaa;">Далее: Капитан ${future.cap} (${futureType})</span>`;
+            const futureIsBan = future.type === 'ban';
+            const futureColor = futureIsBan ? '#ff4d4dbb' : '#4dff4dbb'; // Немного прозрачнее
+            const futureType = futureIsBan ? 'БАН' : 'ПИК';
+
+            statusHTML += `
+                <div style="font-size: 16px; color: #bbb; text-transform: uppercase; letter-spacing: 1px;">
+                    Далее: Капитан ${future.cap} (${futureType})
+                </div>
+            `;
         } else {
-            statusText += ` <br> <span style="font-size: 0.8em; color: #aaa;">Это последний ход</span>`;
+            statusHTML += `<div style="font-size: 16px; color: #aaa;">Последний ход</div>`;
         }
 
-        if (info) info.innerHTML = statusText; // Используем innerHTML, чтобы работал <br>
+        if (info) info.innerHTML = statusHTML;
+        if (action) action.style.fontSize = "32px"; // Делаем заголовок "Идет выбор" крупнее
         if (action) action.innerText = "Идет выбор...";
     } else {
-        if (info) info.innerText = "ДРАФТ ОКОНЧЕН";
-        if (action) action.innerText = "Финал";
+        if (info) info.innerHTML = "<div style='font-size: 30px; color: gold; font-weight: bold;'>ДРАФТ ЗАВЕРШЕН</div>";
+        if (action) action.innerText = "ФИНАЛЬНЫЕ СОСТАВЫ";
     }
 }
