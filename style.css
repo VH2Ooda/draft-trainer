@@ -111,13 +111,12 @@ body {
 }
 
 /* "ИДЕТ ВЫБОР..." */
-/* "ИДЕТ ВЫБОР..." */
 #current-action {
-    font-size: 28px; /* Чуть уменьшил для компактности */
-    font-weight: 900;
+    font-size: 25px; 
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 3px;
-    margin: 0; /* Убираем все отступы */
+    margin: 0; 
     line-height: 1.1;
 }
 
