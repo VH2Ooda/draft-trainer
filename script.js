@@ -121,7 +121,7 @@ if (grid) {
 
                 // 1. Центрируем по вертикали относительно курсора
                 let top = e.clientY - (tHeight / 2); 
-                
+
                 // 2. Позиция по горизонтали (справа от курсора)
                 let left = e.clientX + gap;
 
@@ -173,11 +173,11 @@ if (grid) {
 onValue(ref(db, 'draft'), (snapshot) => {
     const data = snapshot.val();
     lastData = data; 
-    
+
     document.querySelectorAll('.hero-card').forEach(card => {
         card.classList.remove('banned', 'picked');
     });
-    
+
     ['cap1-picks', 'cap1-bans', 'cap2-picks', 'cap2-bans'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.innerHTML = '';
@@ -212,45 +212,55 @@ onValue(ref(db, 'draft'), (snapshot) => {
 function updateUI() {
     const info = document.getElementById('turn-info');
     const action = document.getElementById('current-action');
-    
-    if (!info || !action) return;
 
     if (currentStep < draftSequence.length) {
         const next = draftSequence[currentStep];
         const isBan = next.type === 'ban';
-        const typeClass = isBan ? 'type-ban' : 'type-pick';
+
+        // 1. Формируем строку текущего хода
+        let statusText = `Очередь: Капитан ${next.cap} (${next.type === 'ban' ? 'БАН' : 'ПИК'})`;
+        // Основной текст (Текущий ход)
+        // Добавляем цвет: красный для бана, голубой для пика
+        const mainColor = isBan ? '#ff4d4d' : '#4dff4d';
         const typeText = isBan ? 'БАН' : 'ПИК';
 
-        // Формируем HTML через классы CSS
-        let html = `
-            <div class="turn-main">
-                Очередь: Капитан ${next.cap} 
-                <span class="${typeClass}">(${typeText})</span>
+        let statusHTML = `
+            <div style="font-size: 24px; font-weight: bold; margin-bottom: 5px;">
+                Очередь: <span style="color: white;">Капитан ${next.cap}</span> 
+                (<span style="color: ${mainColor};">${typeText}</span>)
             </div>
         `;
-        
+
+        // 2. Логика для "Следующего хода"
+        // Текст следующего хода
         if (currentStep + 1 < draftSequence.length) {
             const future = draftSequence[currentStep + 1];
-            const fTypeText = future.type === 'ban' ? 'БАН' : 'ПИК';
-            const fTypeClass = future.type === 'ban' ? 'type-ban' : 'type-pick';
+            const futureType = future.type === 'ban' ? 'БАН' : 'ПИК';
+            statusText += ` <br> <span style="font-size: 0.8em; color: #aaa;">Далее: Капитан ${future.cap} (${futureType})</span>`;
+            const futureIsBan = future.type === 'ban';
+            const futureColor = futureIsBan ? '#ff4d4dbb' : '#4dff4dbb'; // Немного прозрачнее
+            const futureType = futureIsBan ? 'БАН' : 'ПИК';
 
-            html += `
-                <div class="turn-next">
-                    Далее: Капитан ${future.cap} <span class="${fTypeClass}" style="font-size: 0.9em;">(${fTypeText})</span>
+            statusHTML += `
+                <div style="font-size: 16px; color: #bbb; text-transform: uppercase; letter-spacing: 1px;">
+                    Далее: Капитан ${future.cap} (${futureType})
                 </div>
             `;
         } else {
-            html += `<div class="turn-next" style="color: gold;">Финальный ход!</div>`;
-        } else {
-        action.innerText = "ДРАФТ ЗАВЕРШЕН";
-        info.innerHTML = "<div class='turn-main' style='color: #4dff4d;'>УДАЧИ В ИГРЕ!</div>";
-    }
-}
+            statusText += ` <br> <span style="font-size: 0.8em; color: #aaa;">Это последний ход</span>`;
+            statusHTML += `<div style="font-size: 16px; color: #aaa;">Последний ход</div>`;
+        }
 
-        info.innerHTML = html;
-        action.innerText = "Идет выбор...";
+        if (info) info.innerHTML = statusText; // Используем innerHTML, чтобы работал <br>
+        if (info) info.innerHTML = statusHTML;
+        if (action) action.style.fontSize = "32px"; // Делаем заголовок "Идет выбор" крупнее
+        if (action) action.innerText = "Идет выбор...";
     } else {
-        action.innerText = "ДРАФТ ЗАВЕРШЕН";
+        if (info) info.innerText = "ДРАФТ ОКОНЧЕН";
+        if (action) action.innerText = "Финал";
+        if (info) info.innerHTML = "<div style='font-size: 30px; color: gold; font-weight: bold;'>ДРАФТ ЗАВЕРШЕН</div>";
+        if (action) action.innerText = "ФИНАЛЬНЫЕ СОСТАВЫ";
+    }
 }
 
 const rb = document.getElementById('reset-btn');
