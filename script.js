@@ -175,17 +175,23 @@ if (grid) {
     if (currentStep < draftSequence.length) {
         const step = draftSequence[currentStep];
 
-        // --- НОВАЯ ПРОВЕРКА РОЛИ ---
-        if (parseInt(myRole) !== step.cap) {
-            alert(`Сейчас ход Капитана ${step.cap}! Вы не можете нажать.`);
+        // Если роль еще не выбрана (на всякий случай)
+        if (!myRole) {
+            alert("Сначала выберите свою роль!");
             return;
         }
-        // ---------------------------
+
+        // Проверяем: совпадает ли ваша роль с номером текущего капитана
+        if (myRole !== step.cap.toString()) {
+            alert(`Сейчас очередь Капитана ${step.cap}. Вы выбрали роль Капитана ${myRole}, подождите своего хода.`);
+            return;
+        }
 
         const isTaken = lastData && lastData.history && 
                         Object.values(lastData.history).some(a => a.heroId === hero.id);
         if (isTaken) return;
 
+        // Если проверки прошли — отправляем данные в базу
         set(ref(db, 'draft/history/' + currentStep), {
             heroId: hero.id,
             cap: step.cap,
