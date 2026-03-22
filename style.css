@@ -103,12 +103,11 @@ body {
 }
 
 #status-bar {
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.4); /* Темная подложка для читаемости */
-    border-radius: 15px;
-    margin-bottom: 20px;
-    min-width: 400px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Тень для текста */
+    min-height: 120px; /* Зарезервируем место под две строки текста */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #current-action {
