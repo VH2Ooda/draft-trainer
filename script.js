@@ -265,7 +265,7 @@ function updateUI() {
         action.innerText = "ИДЕТ ВЫБОР...";
     } else {
         action.innerText = "ДРАФТ ЗАВЕРШЕН";
-        info.innerHTML = "<div class='turn-main' style='color: #4dff4d;'>УДАЧИ В ИГРЕ!</div>";
+        info.innerHTML = "<div class='turn-main' style='color: #4dff4d;'></div>";
     }
 }
 
