@@ -144,3 +144,46 @@ body {
 /* Цвета для типов действий */
 .type-ban { color: #ff4d4d;}
 .type-pick { color: #4dff4d}
+
+/* Контейнер для нижних кнопок */
+.controls-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.controls-container button {
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background: #222;
+    color: white;
+}
+
+/* Окно выбора роли (вынесли из HTML для чистоты) */
+#role-selection {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#role-selection h1 { color: white; margin-bottom: 20px; text-shadow: none; }
+#role-selection p { color: #888; margin-top: 15px; }
+
+.btn-cap1 { background: #4dff4d; color: black; padding: 20px 40px; font-size: 20px; border: none; cursor: pointer; margin: 10px; font-weight: bold; }
+.btn-cap2 { background: #ff4d4d; color: white; padding: 20px 40px; font-size: 20px; border: none; cursor: pointer; margin: 10px; font-weight: bold; }
+
+/* Убираем свечение в статус-баре как просили раньше */
+#current-action, #turn-info, .turn-main, .turn-next {
+    text-shadow: none !important;
+}
