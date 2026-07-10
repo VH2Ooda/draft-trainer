@@ -130,50 +130,12 @@ if (grid) {
         card.title = hero.name;
 
         // Логика наведения мыши
-        card.onmouseenter = (e) => {
-            if (tooltipImg) tooltipImg.src = `images/desc/${hero.id}.png`;
-            if (tooltip) tooltip.style.display = 'block';
-        };
 
-      card.onmousemove = (e) => {
-            if (tooltip) {
-                const gap = 20; // Отступ по горизонтали
-                const tWidth = tooltip.offsetWidth;
-                const tHeight = tooltip.offsetHeight;
 
-                // 1. Центрируем по вертикали относительно курсора
-                let top = e.clientY - (tHeight / 2); 
 
-                // 2. Позиция по горизонтали (справа от курсора)
-                let left = e.clientX + gap;
 
-                // --- ПРОВЕРКИ ГРАНИЦ ---
 
-                // Если уходит за ПРАВЫЙ край — перекидываем влево
-                if (left + tWidth > window.innerWidth) {
-                    left = e.clientX - tWidth - gap;
-                }
-
-                // Если уходит за НИЖНИЙ край — прижимаем к низу
-                if (top + tHeight > window.innerHeight) {
-                    top = window.innerHeight - tHeight - 10;
-                }
-
-                // Если уходит за ВЕРХНИЙ край — прижимаем к верху
-                if (top < 10) {
-                    top = 10;
-                }
-
-                tooltip.style.left = left + 'px';
-                tooltip.style.top = top + 'px';
-            }
-        };
-
-        card.onmouseleave = () => {
-            if (tooltip) tooltip.style.display = 'none';
-        };
-
-      card.onmouseleave = () => { if (tooltip) tooltip.style.display = 'none'; };
+        
 
         card.onclick = () => {
             if (currentStep < draftSequence.length) {
