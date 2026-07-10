@@ -90,7 +90,7 @@ body {
     background: #1a1a1b;
     border-radius: 12px;
     box-shadow: 0 0 30px rgba(0,0,0,0.8);
-    
+
     /* НОВЫЕ СТРОКИ ТУТ: */
     max-height: 90vh; /* Максимальная высота - 90% от высоты экрана */
     overflow-y: auto; /* Если не влезает, появится прокрутка внутри */
@@ -177,6 +177,7 @@ body {
     text-align: center;
 }
 
+ad-block {
 .ad-block {
    margin-top: 20px; /* Добавим немного отступа сверху, чтобы не прилипало */
     text-align: center;
@@ -185,7 +186,7 @@ body {
     margin-right: auto;
 }
 
-ad-image {
+.ad-image {
     width: 100%;      /* Фото будет идеально подстраиваться под ширину блока
     height: auto;
     display: block;   /* Убирает лишние отступы под картинкой */
@@ -197,21 +198,21 @@ ad-image {
     display: block;
     margin-top: 0px; /* Чтобы текст прилегал к картинке */
     padding: 12px 15px;
-    
+
     background: #1a1a1b; /* Темный фон */
     color: #ffffff; /* Белый цвет текста для контраста */
     text-decoration: none;
     text-align: center;
-    
+
     /* Делаем шрифт крупнее и жирнее */
     font-size: 30px;
     font-weight: bold;
     font-family: 'Arial', sans-serif;
-    
+
     /* Добавляем легкую обводку или тень, если нужно, но пока хватит жирности */
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    
+
     transition: background 0.3s ease;
 }
 
