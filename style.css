@@ -177,7 +177,7 @@ body {
     text-align: center;
 }
 
-ad-block {
+.ad-block {
    margin-top: 20px; /* Добавим немного отступа сверху, чтобы не прилипало */
     text-align: center;
     width: 700px;     /* Жестко фиксируем ширину по ширине вашей колонки */
