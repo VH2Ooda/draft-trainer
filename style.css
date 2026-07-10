@@ -7,20 +7,32 @@ body {
     align-items: center;
 }
 
+body, html {
+    height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Запрещает прокрутку всей страницы */
+}
+
 .draft-container {
     display: flex;
-    justify-content: space-around;
-    width: 100%;
-    margin-top: 20px;
+    justify-content: center;
+    align-items: stretch;
+    height: calc(100vh - 150px); /* Высота экрана минус хедер и футер */
+    gap: 15px;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 8 персонажей в ряд */
-    gap: 5px;
-    padding: 20px;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 4px;
+    padding: 10px;
     background: #2b2b2c;
     border-radius: 10px;
+    flex-grow: 1; /* Сетка займет всё доступное место в центре */
+    max-height: 100%;
+    overflow-y: auto; /* Прокрутка появится ТОЛЬКО внутри сетки, если не влезет */
 }
 
 .hero-card {
@@ -32,9 +44,12 @@ body {
     background-size: cover;
 }
 
-.hero-card:hover {
-    border-color: #00ff00;
-    transform: scale(1.1);
+.hero-card {
+    width: 50px; /* Уменьшили с 80px для компактности */
+    height: 50px;
+    border: 2px solid #444;
+    cursor: pointer;
+    background-size: cover;
 }
 
 .hero-card.banned {
@@ -49,8 +64,10 @@ body {
 }
 
 .side {
-    width: 700px;
-    text-align: center;
+    width: 200px; /* Было 700px — это главная причина растягивания! */
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Мини-карточки в боковых панелях (теперь крупнее) */
@@ -177,13 +194,10 @@ body {
     text-align: center;
 }
 
-ad-block {
 .ad-block {
-   margin-top: 20px; /* Добавим немного отступа сверху, чтобы не прилипало */
+    margin-top: auto;
     text-align: center;
-    width: 700px;     /* Жестко фиксируем ширину по ширине вашей колонки */
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
 }
 
 .ad-image {
