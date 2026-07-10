@@ -72,8 +72,8 @@ body, html {
 
 /* Мини-карточки в боковых панелях (теперь крупнее) */
 .mini-card {
-    width: 70px;  /* Было 50px */
-    height: 70px; /* Было 50px */
+    width: 50px;  /* Было 50px */
+    height: 50px; /* Было 50px */
     background-size: cover;
     margin: 5px;
     border: 2px solid white;
