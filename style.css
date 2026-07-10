@@ -49,7 +49,7 @@ body {
 }
 
 .side {
-    width: 250px; /* Было 200px */
+    width: 700px;
     text-align: center;
 }
 
@@ -177,17 +177,18 @@ body {
     text-align: center;
 }
 
-.ad-block {
-    margin-top: 0px;
-    padding: 0px;
-    border-radius: 0px;
-    border: 0px solid #444;
+ad-block {
+   margin-top: 20px; /* Добавим немного отступа сверху, чтобы не прилипало */
     text-align: center;
+    width: 700px;     /* Жестко фиксируем ширину по ширине вашей колонки */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .ad-image {
-    width: 100%;       /* Растянет фото на ширину колонки (250px) */
+    width: 100%;      /* Фото будет идеально подстраиваться под ширину блока
     height: auto;
+    display: block;   /* Убирает лишние отступы под картинкой */
     border-radius: 4px;
     margin-bottom: 10px;
 }
