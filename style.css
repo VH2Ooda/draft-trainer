@@ -81,7 +81,7 @@ body {
     margin-bottom: 20px;
 }
 
-.tooltip {
+.tooltip {display: none !important; /* Добавьте это, чтобы скрыть принудительно */
     position: fixed;
     display: none;
     pointer-events: none;
