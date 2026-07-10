@@ -35,14 +35,6 @@ body, html {
     overflow-y: auto; /* Прокрутка появится ТОЛЬКО внутри сетки, если не влезет */
 }
 
-.hero-card {
-    width: 80px;
-    height: 80px;
-    border: 2px solid #444;
-    cursor: pointer;
-    transition: 0.2s;
-    background-size: cover;
-}
 
 .hero-card {
     width: 50px; /* Уменьшили с 80px для компактности */
