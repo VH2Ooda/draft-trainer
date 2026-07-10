@@ -197,21 +197,30 @@ ad-block {
 
 .donate-link {
     display: block;
-    margin-top: 10px;
-    padding: 10px;
-    background: #2b2b2c;
-    color: #ffffff;
+    margin-top: 15px;
+    padding: 15px 10px;
+    
+    /* Делаем фон немного контрастным, чтобы текст выделялся */
+    background: #1e1e1f; 
+    border: 1px solid #333;
+    border-radius: 8px; /* Скругленные углы выглядят мягче */
+    
+    color: #b3b3b3; /* Чуть мягче, чем чисто белый */
     text-decoration: none;
-    font-size: 14px;
-    border: 1px solid #444;
-    border-radius: 4px;
-    transition: 0.3s;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px; /* Немного раздвигаем буквы для стиля */
+    
+    transition: all 0.3s ease; /* Плавный эффект при наведении */
 }
 
 .donate-link:hover {
-    background: #3d3d3e;
-    border-color: #00ff00; /* Подсветка при наведении */
-    cursor: pointer;
+    background: #252526;
+    border-color: #555;
+    color: #ffffff; /* Текст становится белым при наведении */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3); /* Добавляем легкую тень для объема */
 }
 
 #role-selection h1 { color: white; margin-bottom: 20px; text-shadow: none; }
