@@ -15,24 +15,24 @@ body, html {
 
 .draft-container {
     display: flex;
+    flex-direction: row; /* ВАЖНО: это ставит стороны и сетку в ряд */
     justify-content: center;
-    align-items: stretch;
-    height: calc(100vh - 150px); /* Высота экрана минус хедер и футер */
-    gap: 15px;
+    align-items: flex-start;
+    width: 100%;
+    gap: 20px;
     padding: 10px;
-    box-sizing: border-box;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(8, 1fr); /* 8 колонок возвращаются */
     gap: 4px;
     padding: 10px;
     background: #2b2b2c;
     border-radius: 10px;
-    flex-grow: 1; /* Сетка займет всё доступное место в центре */
-    max-height: 100%;
-    overflow-y: auto; /* Прокрутка появится ТОЛЬКО внутри сетки, если не влезет */
+    flex-shrink: 0; /* Не даем сжиматься */
+    max-height: 80vh; /* Ограничиваем высоту, чтобы был скролл внутри */
+    overflow-y: auto;
 }
 
 
@@ -56,10 +56,11 @@ body, html {
 }
 
 .side {
-    width: 200px; /* Было 700px — это главная причина растягивания! */
-    flex-shrink: 0;
+    flex: 1; /* Занимают свободное место */
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Внутри стороны элементы идут друг под другом */
+    align-items: center;    /* Центрируем их */
+    min-width: 200px;       /* Чтобы они не схлопывались */
 }
 
 /* Мини-карточки в боковых панелях (теперь крупнее) */
@@ -187,17 +188,17 @@ body, html {
 }
 
 .ad-block {
-    margin-top: auto;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Реклама всегда по центру своей колонки */
     width: 100%;
+    margin-top: 20px;
 }
 
 .ad-image {
-    width: 100%;      /* Фото будет идеально подстраиваться под ширину блока
+    max-width: 200px; /* Ограничьте размер картинки, чтобы она не была огромной */
     height: auto;
-    display: block;   /* Убирает лишние отступы под картинкой */
     border-radius: 4px;
-    margin-bottom: 10px;
 }
 
 .donate-link {
