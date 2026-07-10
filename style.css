@@ -196,35 +196,32 @@ body, html {
 }
 
 .ad-image {
-    max-width: 200px; /* Ограничьте размер картинки, чтобы она не была огромной */
+    width: 100%;       /* Занимает всю ширину блока */
+    max-width: 400px;  /* УВЕЛИЧИВАЕМ ограничение ширины, чтобы картинка была больше */
     height: auto;
-    border-radius: 4px;
+    display: block;
+    border-radius: 8px; /* Чуть больше скругления для эстетики */
+    margin: 0 auto;    /* Центрируем картинку */
 }
 
 .donate-link {
     display: block;
-    margin-top: 0px; /* Чтобы текст прилегал к картинке */
-    padding: 12px 15px;
-
-    background: #1a1a1b; /* Темный фон */
-    color: #ffffff; /* Белый цвет текста для контраста */
+    padding: 8px 10px; /* Уменьшили внутренние отступы */
+    background: #1a1a1b;
+    color: #ffffff;
     text-decoration: none;
     text-align: center;
 
-    /* Делаем шрифт крупнее и жирнее */
-    font-size: 30px;
+    /* УМЕНЬШАЕМ ШРИФТ */
+    font-size: 20px; 
     font-weight: bold;
     font-family: 'Arial', sans-serif;
 
-    /* Добавляем легкую обводку или тень, если нужно, но пока хватит жирности */
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-
+    /* Убираем лишние скругления, если они мешают */
+    border-radius: 4px;
+    margin-bottom: 5px; /* Небольшой отступ от картинки */
+    
     transition: background 0.3s ease;
-}
-
-.donate-link:hover {
-    background: #2b2b2c; /* Чуть светлее при наведении */
 }
 
 
