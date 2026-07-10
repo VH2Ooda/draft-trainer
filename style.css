@@ -185,7 +185,7 @@ body {
     margin-right: auto;
 }
 
-.ad-image {
+ad-image {
     width: 100%;      /* Фото будет идеально подстраиваться под ширину блока
     height: auto;
     display: block;   /* Убирает лишние отступы под картинкой */
