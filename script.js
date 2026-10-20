@@ -110,7 +110,12 @@ const heroes = [
     { id: '58', name: '', img: 'images/58.png' },
     { id: '59', name: '', img: 'images/59.png' },
     { id: '60', name: '', img: 'images/60.png' },
-    { id: '61', name: '', img: 'images/61.png' }
+    { id: '61', name: '', img: 'images/61.png' },
+    { id: '62', name: '', img: 'images/62.png' },
+    { id: '63', name: '', img: 'images/63.png' },
+    { id: '64', name: '', img: 'images/64.png' }
+    
+
 ];
 
 let currentStep = 0;
